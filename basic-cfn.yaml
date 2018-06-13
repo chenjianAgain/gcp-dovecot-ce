@@ -22,6 +22,9 @@ Resources:
           sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
           sed -i '$amail_location = mbox:~/mail:INBOX=/var/mail/%u' /etc/dovecot/conf.d/10-mail.conf
           systemctl restart dovecot
+          # Let postfix recieve all traffic, not only localhost
+          postconf -e "inet_interfaces = all"
+          systemctl restart postfix
           # Prepare some data for imap/pop3 test
           for i in {1..5}
           do
