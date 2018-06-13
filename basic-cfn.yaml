@@ -24,7 +24,7 @@ Resources:
           systemctl restart dovecot
           # Let postfix recieve all traffic, not only localhost
           postconf -e "inet_interfaces = all"
-          postconf -e "mydestination = email.josephaws.one, localhost"
+          postconf -e "mydestination = josephaws.one, email.josephaws.one, localhost"
           systemctl restart postfix
           # Prepare some data for imap/pop3 test
           for i in {1..5}
