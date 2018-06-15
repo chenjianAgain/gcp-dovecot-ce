@@ -1,10 +1,26 @@
+Parameters:
+  KeyName:
+    Description: The EC2 Key Pair to allow SSH access to the instance
+    Type: 'AWS::EC2::KeyPair::KeyName'
 Resources:
+  InstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH access via port 22
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
   EC2:
     Type: "AWS::EC2::Instance"
     Properties:
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+        - all-traffic-allowed
+      KeyName: !Ref KeyName
       ImageId: ami-6871a115
       InstanceType: t2.micro
-      KeyName: devenv-key
       UserData:
         "Fn::Base64":
           !Sub |
