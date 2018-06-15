@@ -27,7 +27,7 @@ Resources:
       SubnetId: !Ref SubnetId
       Description: Interface for controlling traffic such as SSH
       GroupSet: 
-      - !Ref SSHSecurityGroup
+      - all-traffic-allowed
       SourceDestCheck: true
       Tags:
         -
