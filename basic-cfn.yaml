@@ -36,8 +36,8 @@ Resources:
   EC2:
     Type: "AWS::EC2::Instance"
     Properties:
-      SecurityGroups:
-        - !Ref InstanceSecurityGroup
+      #SecurityGroups:
+        #- !Ref InstanceSecurityGroup
         #- all-traffic-allowed
       KeyName: !Ref KeyName
       NetworkInterfaces:
