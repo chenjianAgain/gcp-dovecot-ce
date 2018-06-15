@@ -2,6 +2,7 @@ Parameters:
   KeyName:
     Description: The EC2 Key Pair to allow SSH access to the instance
     Type: 'AWS::EC2::KeyPair::KeyName'
+Resources:
   ControlPortAddress:
     Type: AWS::EC2::EIP
     Properties:
@@ -11,7 +12,6 @@ Parameters:
     Properties:
       AllocationId: !GetAtt ControlPortAddress.AllocationId
       NetworkInterfaceId: !Ref controlXface
-Resources:
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
