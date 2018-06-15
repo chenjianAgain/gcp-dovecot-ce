@@ -38,7 +38,7 @@ Resources:
     Properties:
       SecurityGroups:
         - !Ref InstanceSecurityGroup
-        - all-traffic-allowed
+        #- all-traffic-allowed
       KeyName: !Ref KeyName
       NetworkInterfaces:
         -
