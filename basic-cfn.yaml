@@ -24,7 +24,7 @@ Resources:
   controlXface:
     Type: AWS::EC2::NetworkInterface
     Properties:
-      SubnetId: !Ref SubnetId
+      SubnetId: subnet-233dc278
       Description: Interface for controlling traffic such as SSH
       GroupSet: 
       - all-traffic-allowed
