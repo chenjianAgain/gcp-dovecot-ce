@@ -14,15 +14,15 @@ Resources:
           CidrIp: 0.0.0.0/0
   EC2:
     Type: "AWS::EC2::Instance"
-    Tags: 
-      - 
-        Key: "Name"
-        Value: "Joseph-Demo"
     Properties:
       SecurityGroups:
         - !Ref InstanceSecurityGroup
         - all-traffic-allowed
       KeyName: !Ref KeyName
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "Joseph-Demo"
       #ImageId: ami-6871a115 / RHEL
       ImageId: ami-afd15ed0 / Amazon Linux
       InstanceType: t2.micro
