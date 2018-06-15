@@ -14,6 +14,10 @@ Resources:
           CidrIp: 0.0.0.0/0
   EC2:
     Type: "AWS::EC2::Instance"
+    Tags: 
+      - 
+        Key: "Name"
+        Value: "Joseph-Demo"
     Properties:
       SecurityGroups:
         - !Ref InstanceSecurityGroup
