@@ -24,7 +24,7 @@ Resources:
           Key: "Name"
           Value: "Joseph-Demo"
       #ImageId: ami-6871a115 / RHEL
-      ImageId: ami-afd15ed0 / Amazon Linux
+      ImageId: ami-afd15ed0 #/ Amazon Linux
       InstanceType: t2.micro
       UserData:
         "Fn::Base64":
