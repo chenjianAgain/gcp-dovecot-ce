@@ -42,7 +42,7 @@ Resources:
       KeyName: !Ref KeyName
       NetworkInterfaces:
         -
-          NetworkInterfaceId: !Ref controlXface
+          NetworkInterfaceId: eni-c16830f8
           DeviceIndex: 0
       Tags: 
         - 
