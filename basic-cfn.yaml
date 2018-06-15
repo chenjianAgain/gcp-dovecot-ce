@@ -2,6 +2,15 @@ Parameters:
   KeyName:
     Description: The EC2 Key Pair to allow SSH access to the instance
     Type: 'AWS::EC2::KeyPair::KeyName'
+  ControlPortAddress:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+  AssociateControlPort:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      AllocationId: !GetAtt ControlPortAddress.AllocationId
+      NetworkInterfaceId: !Ref controlXface
 Resources:
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
@@ -12,6 +21,18 @@ Resources:
           FromPort: '22'
           ToPort: '22'
           CidrIp: 0.0.0.0/0
+  controlXface:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      SubnetId: !Ref SubnetId
+      Description: Interface for controlling traffic such as SSH
+      GroupSet: 
+      - !Ref SSHSecurityGroup
+      SourceDestCheck: true
+      Tags:
+        -
+          Key: Network
+          Value: Control
   EC2:
     Type: "AWS::EC2::Instance"
     Properties:
@@ -19,6 +40,10 @@ Resources:
         - !Ref InstanceSecurityGroup
         - all-traffic-allowed
       KeyName: !Ref KeyName
+      NetworkInterfaces:
+        -
+          NetworkInterfaceId: !Ref controlXface
+          DeviceIndex: 0
       Tags: 
         - 
           Key: "Name"
