@@ -2,6 +2,7 @@ Parameters:
   KeyName:
     Description: The EC2 Key Pair to allow SSH access to the instance
     Type: 'AWS::EC2::KeyPair::KeyName'
+    Default: "Joseph-demo"
 Resources:
   ControlPortAddress:
     Type: AWS::EC2::EIP
