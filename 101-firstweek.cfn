@@ -75,5 +75,5 @@ Resources:
           for i in {1..3}
           do
               #echo "Welcome $i times"
-              echo hello$i | mail -s "test$i" demo@localhost.
+              echo hello$i | mail -s test$i-`date "+%Y-%m-%d %H:%M:%S"` demo@localhost.
           done
