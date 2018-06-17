@@ -65,7 +65,7 @@ Resources:
           Key: "Name"
           Value: "Joseph-Demo"
       #ImageId: ami-6871a115 / RHEL
-      ImageId: ami-afd15ed0 #/ Amazon Linux
+      ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
       UserData:
         "Fn::Base64":
