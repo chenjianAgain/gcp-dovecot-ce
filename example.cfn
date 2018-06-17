@@ -5,8 +5,8 @@ Resources:
     Type: "AWS::EC2::Instance"
     Properties: 
       ImageId: "ami-2f726546"
-      InstanceType: t1.micro
-      KeyName: testkey
+      InstanceType: t2.micro
+      KeyName: Joseph-demo
       BlockDeviceMappings:
         -
           DeviceName: /dev/sdm
