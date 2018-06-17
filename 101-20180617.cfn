@@ -52,42 +52,9 @@ Mappings:
       "EC2" : "t2.medium"
       "DB" : "db.t2.medium"
 Resources:
-  ControlPortAddress:
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-  AssociateControlPort:
-    Type: AWS::EC2::EIPAssociation
-    Properties:
-      AllocationId: !GetAtt ControlPortAddress.AllocationId
-      NetworkInterfaceId: !Ref controlXface
-  InstanceSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: Enable SSH access via port 22
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: '22'
-          ToPort: '22'
-          CidrIp: 0.0.0.0/0
-  controlXface:
-    Type: AWS::EC2::NetworkInterface
-    Properties:
-      SubnetId: subnet-233dc278
-      Description: Interface for controlling traffic such as SSH
-      GroupSet: 
-      - sg-2a20f761
-      SourceDestCheck: true
-      Tags:
-        -
-          Key: Network
-          Value: Control
   EC2:
     Type: "AWS::EC2::Instance"
     Properties:
-      #SecurityGroups:
-        #- !Ref InstanceSecurityGroup
-        #- all-traffic-allowed
       KeyName: !Ref KeyName
       NetworkInterfaces:
         -
