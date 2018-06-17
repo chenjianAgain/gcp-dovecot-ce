@@ -76,5 +76,5 @@ Resources:
           do
               #echo "Welcome $i times"
               current=`date "+%Y-%m-%d %H:%M:%S"` 
-              echo hello$i | mail -s "test$i-$current" demo@localhost.
+              echo "hello$i at $current" | mail -s "test$i-$current" demo@localhost.
           done
