@@ -68,24 +68,16 @@ Resources:
           !Sub |
           #!/bin/bash
           sudo su -
-          yum install -y mailx telnet mutt dovecot
+          yum install -y mailx telnet mutt dovecot amazon-efs-utils
           yum update -y
           setenforce 0
           systemctl stop firewalld
+          mkdir -p /mnt/efs
+          mount -t efs fs-efbb24a7:/ /mnt/efs
           useradd demo
           echo "demo:demo1" | chpasswd
           usermod -aG mail demo
           sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
-          sed -i '$amail_location = mbox:~/mail:INBOX=/var/mail/%u' /etc/dovecot/conf.d/10-mail.conf
+          sed -i '$amail_location = mbox:~/mail:INBOX=/mnt/efs/mail/%u' /etc/dovecot/conf.d/10-mail.conf
           systemctl restart dovecot
-          # Let postfix recieve all traffic, not only localhost
-          postconf -e "inet_interfaces = all"
-          postconf -e "mydestination = josephaws.one, email.josephaws.one, josephaws.com, email.josephaws.com, localhost"
-          systemctl restart postfix
-          # Prepare some data for imap/pop3 test
-          for i in {1..3}
-          do
-              #echo "Welcome $i times"
-              current=`date "+%Y-%m-%d %H:%M:%S"` 
-              echo "hello-$i at $current" | mail -s "test$i-$current" demo@localhost.
-          done
+         
