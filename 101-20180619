@@ -56,6 +56,8 @@ Resources:
     Type: "AWS::EC2::Instance"
     Properties:
       KeyName: !Ref KeyName
+      SecurityGroups:
+        - all-traffic-allowed      
       Tags: 
         - 
           Key: "Name"
