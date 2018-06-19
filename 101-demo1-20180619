@@ -98,6 +98,10 @@ Resources:
           FromPort: '110'
           ToPort: '110'
           CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '225'
+          ToPort: '225'
+          CidrIp: 0.0.0.0/0
   ImapServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
