@@ -114,11 +114,6 @@ Resources:
       NetworkInterfaces:
         - GroupSet:
             - !Ref ImapServerSecurityGroup
-          Properties:
-            Tags: 
-              - 
-                Key: "Name"
-                Value: "Joseph-Demo-20180619"
           AssociatePublicIpAddress: 'true'
           DeviceIndex: '0'
           DeleteOnTermination: 'true'
