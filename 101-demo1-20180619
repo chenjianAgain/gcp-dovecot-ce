@@ -21,6 +21,10 @@ Resources:
   VPC:
     Type: 'AWS::EC2::VPC'
     Properties:
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "GD-Demo-1"
       EnableDnsSupport: 'true'
       EnableDnsHostnames: 'true'
       CidrBlock: 10.0.0.0/16
