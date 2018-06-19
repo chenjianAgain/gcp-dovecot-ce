@@ -57,8 +57,8 @@ Resources:
       VpcId: !Ref VPC
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: '80'
-          ToPort: '80'
+          FromPort: '143'
+          ToPort: '143'
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
           FromPort: '22'
@@ -83,10 +83,18 @@ Resources:
 
           - - '#!/bin/bash -xe'
             - sudo yum update -y
-            - sudo yum install httpd -y
-            - sudo systemctl start httpd
-            - echo "<html><body><h1>Awesome !!!</h1>" > /var/www/html/index.html
-            - echo "</body></html>" >> /var/www/html/index.html
+            - sudo yum install -y mailx telnet mutt postfix dovecot
+            - sudo useradd demo
+            - sudo echo "demo:demo1" | chpasswd
+            - sudo usermod -aG mail demo
+            - sudo sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
+            - sudo sed -i '$amail_location = mbox:~/mail:INBOX=/var/mail/%u' /etc/dovecot/conf.d/10-mail.conf
+            - sudo systemctl restart dovecot
+            - for i in {1..3}
+            - do
+            - current=`date "+%Y-%m-%d %H:%M:%S"`
+            - echo "hello-$i at $current" | mail -s "test$i-$current" demo@localhost.
+            - done
 Outputs:
   URL:
     Description: URL of the sample website
