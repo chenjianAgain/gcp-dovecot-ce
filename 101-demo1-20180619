@@ -50,7 +50,7 @@ Resources:
       NetworkAclId: !GetAtt 
         - VPC
         - DefaultNetworkAcl
-  WebServerSecurityGroup:
+  ImapServerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: Enable HTTP ingress
@@ -64,14 +64,14 @@ Resources:
           FromPort: '22'
           ToPort: '22'
           CidrIp: 0.0.0.0/0
-  WebServerInstance:
+  ImapServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: t2.micro
       ImageId: ami-afd15ed0
       NetworkInterfaces:
         - GroupSet:
-            - !Ref WebServerSecurityGroup
+            - !Ref ImapServerSecurityGroup
           AssociatePublicIpAddress: 'true'
           DeviceIndex: '0'
           DeleteOnTermination: 'true'
@@ -102,5 +102,5 @@ Outputs:
       - ''
       - - 'http://'
         - !GetAtt 
-          - WebServerInstance
+          - ImapServerInstance
           - PublicDnsName
