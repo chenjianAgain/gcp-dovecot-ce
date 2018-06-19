@@ -114,6 +114,13 @@ Resources:
         - 
           Key: "Name"
           Value: "Joseph-Demo-20180619"
+  NICAttachment:
+    Type: "AWS::EC2::NetworkInterfaceAttachment"
+    Properties: 
+      DeleteOnTermination: true
+      DeviceIndex: 0
+      InstanceId: ！Ref ImapServerInstance
+      NetworkInterfaceId: !Ref NIC
   ImapServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
@@ -123,10 +130,6 @@ Resources:
         - 
           Key: "Name"
           Value: "Joseph-Demo-20180619"
-      NetworkInterfaces: 
-        - 
-          NetworkInterfaceId: !Ref NIC
-          DeviceIndex: '0'
       #KeyName: !FindInMap [RegionMap, !Ref "AWS::Region", KeyPairName]
       UserData: !Base64 
         'Fn::Join':
