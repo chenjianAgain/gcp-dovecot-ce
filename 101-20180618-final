@@ -58,7 +58,7 @@ Resources:
       KeyName: !Ref KeyName
       NetworkInterfaces:
         -
-          NetworkInterfaceId: eni-c16830f8
+          NetworkInterfaceId: eni-c16830f8 # eni which is bound to an EIP, which is registered with email.josephaws.one
           DeviceIndex: 0
       Tags: 
         - 
