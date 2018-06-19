@@ -71,7 +71,7 @@ Resources:
           !Sub |
           #!/bin/bash
           sudo su -
-          yum install -y mailx telnet mutt dovecot amazon-efs-utils
+          yum install -y dovecot amazon-efs-utils
           yum update -y
           setenforce 0
           systemctl stop firewalld
@@ -102,7 +102,7 @@ Resources:
           !Sub |
           #!/bin/bash
           sudo su -
-          yum install -y mailx telnet mutt dovecot amazon-efs-utils
+          yum install -y dovecot amazon-efs-utils
           yum update -y
           setenforce 0
           systemctl stop firewalld
