@@ -102,6 +102,20 @@ Resources:
           FromPort: '225'
           ToPort: '225'
           CidrIp: 0.0.0.0/0
+  NIC:
+    Type: "AWS::EC2::NetworkInterface"
+    Properties: 
+      Description: "eth0 nic"
+      GroupSet:
+        - !Ref ImapServerSecurityGroup
+      AssociatePublicIpAddress: 'true'
+      DeviceIndex: '0'
+      DeleteOnTermination: 'true'
+      SubnetId: !Ref PublicSubnet
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "Joseph-Demo-20180619"
   ImapServerInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
@@ -111,13 +125,7 @@ Resources:
         - 
           Key: "Name"
           Value: "Joseph-Demo-20180619"
-      NetworkInterfaces:
-        - GroupSet:
-            - !Ref ImapServerSecurityGroup
-          AssociatePublicIpAddress: 'true'
-          DeviceIndex: '0'
-          DeleteOnTermination: 'true'
-          SubnetId: !Ref PublicSubnet
+      NetworkInterface: !Ref NIC
       #KeyName: !FindInMap [RegionMap, !Ref "AWS::Region", KeyPairName]
       UserData: !Base64 
         'Fn::Join':
