@@ -81,8 +81,12 @@ Resources:
           echo "demo:demo1" | chpasswd
           usermod -aG mail demo
           sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
+          # Change local storage to efs for dovecot
           sed -i '$amail_location = mbox:~/mail:INBOX=/mnt/efs/mail/%u' /etc/dovecot/conf.d/10-mail.conf
           systemctl restart dovecot
+          # Change local storage to efs for postfix
+          postconf -e "mail_spool_directory = /mnt/efs/mail"
+          systemctl restart postfix
   EC2NotFromLaunchConfig2:
     Type: "AWS::EC2::Instance"
     Properties:
@@ -112,6 +116,10 @@ Resources:
           echo "demo:demo1" | chpasswd
           usermod -aG mail demo
           sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
+          # Change local storage to efs for dovecot
           sed -i '$amail_location = mbox:~/mail:INBOX=/mnt/efs/mail/%u' /etc/dovecot/conf.d/10-mail.conf
           systemctl restart dovecot
+          # Change local storage to efs for postfix
+          postconf -e "mail_spool_directory = /mnt/efs/mail"
+          systemctl restart postfix
          
