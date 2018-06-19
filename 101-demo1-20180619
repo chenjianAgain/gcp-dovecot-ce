@@ -18,6 +18,15 @@ Mappings:
       "AMALINUX" : "ami-c59818a1" # AMALINUX 2 May 2018 
       "KeyPairName" : "GD-Joseph-ca-central-1"
 Resources:
+  PublicSubnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "Joseph-Demo-20180619"
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.0.0/24
   VPC:
     Type: 'AWS::EC2::VPC'
     Properties:
@@ -28,15 +37,6 @@ Resources:
       EnableDnsSupport: 'true'
       EnableDnsHostnames: 'true'
       CidrBlock: 10.0.0.0/16
-  PublicSubnet:
-    Type: 'AWS::EC2::Subnet'
-    Properties:
-      Tags: 
-        - 
-          Key: "Name"
-          Value: "Joseph-Demo-20180619"
-      VpcId: !Ref VPC
-      CidrBlock: 10.0.0.0/24
   InternetGateway:
     Type: 'AWS::EC2::InternetGateway'
     Properties:
@@ -123,7 +123,7 @@ Resources:
         - 
           Key: "Name"
           Value: "Joseph-Demo-20180619"
-      NetworkInterface: 
+      NetworkInterfaces: 
         - 
           NetworkInterfaceId: !Ref NIC
           DeviceIndex: '0'
