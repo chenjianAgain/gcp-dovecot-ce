@@ -89,7 +89,7 @@ Resources:
           DeviceIndex: '0'
           DeleteOnTermination: 'true'
           SubnetId: !Ref PublicSubnet
-      KeyName: !FindInMap [RegionMap, !Ref "AWS::Region", KeyPairName]
+      #KeyName: !FindInMap [RegionMap, !Ref "AWS::Region", KeyPairName]
       UserData: !Base64 
         'Fn::Join':
           - |+
