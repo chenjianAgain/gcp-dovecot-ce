@@ -83,7 +83,7 @@ Resources:
         - 
           Key: "Name"
           Value: "Joseph-Demo-20180619"
-      GroupDescription: Enable HTTP ingress
+      GroupDescription: Enable IMAP ingress
       VpcId: !Ref VPC
       SecurityGroupIngress:
         - IpProtocol: tcp
