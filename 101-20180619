@@ -57,6 +57,7 @@ Resources:
     Properties:
       KeyName: !Ref KeyName
       SecurityGroups:
+        - default
         - all-traffic-allowed      
       Tags: 
         - 
