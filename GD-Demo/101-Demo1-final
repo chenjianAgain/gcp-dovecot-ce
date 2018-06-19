@@ -1,0 +1,148 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  AWS CloudFormation Sample Template VPC_with_PublicIPs_And_DNS: Sample template
+  that creates a VPC with DNS and public IPs enabled. Note that you are billed
+  for the AWS resources that you use when you create a stack from this template.
+Mappings:
+  RegionMap:
+    us-east-1:
+      "AMALINUX" : "ami-afd15ed0" # AMALINUX 2 May 2018 
+      "KeyPairName" : "Joseph-demo" 
+    us-east-2:
+      "AMALINUX" : "ami-71ca9114" # AMALINUX SEP 2016
+    us-west-1:
+      "AMALINUX" : "ami-de347abe" # AMALINUX SEP 2016
+    us-west-2:
+      "AMALINUX" : "ami-b04e92d0" # AMALINUX SEP 2016
+    ca-central-1:
+      "AMALINUX" : "ami-c59818a1" # AMALINUX 2 May 2018 
+      "KeyPairName" : "GD-Joseph-ca-central-1"
+Resources:
+  PublicSubnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "Joseph-Demo-20180619"
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.0.0/24
+  VPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "GD-Demo-1"
+      EnableDnsSupport: 'true'
+      EnableDnsHostnames: 'true'
+      CidrBlock: 10.0.0.0/16
+  InternetGateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "Joseph-Demo-20180619"
+  VPCGatewayAttachment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+  PublicRouteTable:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "Joseph-Demo-20180619"
+      VpcId: !Ref VPC
+  PublicRoute:
+    Type: 'AWS::EC2::Route'
+    DependsOn: VPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+  PublicSubnetRouteTableAssociation:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+  PublicSubnetNetworkAclAssociation:
+    Type: 'AWS::EC2::SubnetNetworkAclAssociation'
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      NetworkAclId: !GetAtt 
+        - VPC
+        - DefaultNetworkAcl
+  ImapServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "Joseph-Demo-20180619"
+      GroupDescription: Enable IMAP/POP3 ingress, 225 for LMTP
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '143'
+          ToPort: '143'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '110'
+          ToPort: '110'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '225'
+          ToPort: '225'
+          CidrIp: 0.0.0.0/0
+  ImapServerInstance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      InstanceType: t2.micro
+      ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX]
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "Joseph-Demo-20180619"
+      NetworkInterfaces: 
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          GroupSet: 
+            - Ref: "ImapServerSecurityGroup"
+          SubnetId: 
+            Ref: "PublicSubnet"
+      #KeyName: !FindInMap [RegionMap, !Ref "AWS::Region", KeyPairName]
+      UserData: !Base64 
+        'Fn::Join':
+          - |+
+
+          - - '#!/bin/bash -xe'
+            - sudo yum update -y
+            - sudo yum install -y mailx dovecot
+            - sudo useradd demo
+            - sudo echo "demo:demo1" | chpasswd
+            - sudo usermod -aG mail demo
+            - sudo sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
+            - sudo sed -i '$amail_location = mbox:~/mail:INBOX=/var/mail/%u' /etc/dovecot/conf.d/10-mail.conf
+            - sudo systemctl restart dovecot
+            - for i in {1..3}
+            - do
+            - current=`date "+%Y-%m-%d %H:%M:%S"`
+            - echo "hello-$i at $current" | mail -s "test$i-$current" demo@localhost.
+            - done
+Outputs:
+  URL:
+    Description: URL of the sample website
+    Value: !Join 
+      - ''
+      - - 'mutt -f imap://demo@'
+        - !GetAtt 
+          - ImapServerInstance
+          - PublicDnsName
