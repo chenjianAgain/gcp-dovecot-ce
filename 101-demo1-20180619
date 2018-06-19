@@ -83,7 +83,7 @@ Resources:
         - 
           Key: "Name"
           Value: "Joseph-Demo-20180619"
-      GroupDescription: Enable IMAP ingress
+      GroupDescription: Enable IMAP/POP3 ingress, 225 for LMTP
       VpcId: !Ref VPC
       SecurityGroupIngress:
         - IpProtocol: tcp
