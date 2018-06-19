@@ -42,10 +42,6 @@ Resources:
   VPCGatewayAttachment:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
-      Tags: 
-        - 
-          Key: "Name"
-          Value: "Joseph-Demo-20180619"
       VpcId: !Ref VPC
       InternetGatewayId: !Ref InternetGateway
   PublicRouteTable:
@@ -60,29 +56,17 @@ Resources:
     Type: 'AWS::EC2::Route'
     DependsOn: VPCGatewayAttachment
     Properties:
-      Tags: 
-        - 
-          Key: "Name"
-          Value: "Joseph-Demo-20180619"
       RouteTableId: !Ref PublicRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref InternetGateway
   PublicSubnetRouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      Tags: 
-        - 
-          Key: "Name"
-          Value: "Joseph-Demo-20180619"
       SubnetId: !Ref PublicSubnet
       RouteTableId: !Ref PublicRouteTable
   PublicSubnetNetworkAclAssociation:
     Type: 'AWS::EC2::SubnetNetworkAclAssociation'
     Properties:
-      Tags: 
-        - 
-          Key: "Name"
-          Value: "Joseph-Demo-20180619"
       SubnetId: !Ref PublicSubnet
       NetworkAclId: !GetAtt 
         - VPC
