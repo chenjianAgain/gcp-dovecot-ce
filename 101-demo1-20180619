@@ -104,7 +104,7 @@ Outputs:
     Description: URL of the sample website
     Value: !Join 
       - ''
-      - - 'http://'
+      - - 'mutt -f imap://demo@'
         - !GetAtt 
           - ImapServerInstance
           - PublicDnsName
