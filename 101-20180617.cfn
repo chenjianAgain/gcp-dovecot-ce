@@ -72,7 +72,7 @@ Resources:
           !Sub |
           #!/bin/bash
           sudo su -
-          yum install -y mailx telnet mutt dovecot
+          yum install -y mailx telnet mutt postfix dovecot
           yum update -y
           setenforce 0
           systemctl stop firewalld
