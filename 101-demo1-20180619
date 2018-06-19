@@ -7,7 +7,7 @@ Parameters:
   KeyPair:
     Description: Name of the keypair to use for SSH access
     Type: String
-    Default: !FindInMap [RegionMap, !Ref "AWS::Region", KeyPairName]
+    Default: !If [!Ref "AWS::Region" == "us-east-1", "Joseph-demo", "GD-Joseph-ca-central-1"]
 Mappings:
   RegionMap:
     us-east-1:
