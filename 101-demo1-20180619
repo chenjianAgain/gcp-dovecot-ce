@@ -69,6 +69,10 @@ Resources:
     Properties:
       InstanceType: t2.micro
       ImageId: ami-afd15ed0
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "Joseph-Demo-20180619"
       NetworkInterfaces:
         - GroupSet:
             - !Ref ImapServerSecurityGroup
