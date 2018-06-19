@@ -127,7 +127,6 @@ Resources:
         - 
           NetworkInterfaceId: !Ref NIC
           DeviceIndex: '0'
-          AssociatePublicIpAddress: 'true'
           DeleteOnTermination: 'true'
       #KeyName: !FindInMap [RegionMap, !Ref "AWS::Region", KeyPairName]
       UserData: !Base64 
