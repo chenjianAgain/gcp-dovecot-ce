@@ -109,9 +109,9 @@ Resources:
       GroupSet:
         - !Ref ImapServerSecurityGroup
       AssociatePublicIpAddress: 'true'
-      DeviceIndex: '0'
       DeleteOnTermination: 'true'
       SubnetId: !Ref PublicSubnet
+      SourceDestCheck: true
       Tags: 
         - 
           Key: "Name"
@@ -125,7 +125,10 @@ Resources:
         - 
           Key: "Name"
           Value: "Joseph-Demo-20180619"
-      NetworkInterface: !Ref NIC
+      NetworkInterface: 
+        - 
+          NetworkInterfaceId: !Ref NIC
+          DeviceIndex: '0'
       #KeyName: !FindInMap [RegionMap, !Ref "AWS::Region", KeyPairName]
       UserData: !Base64 
         'Fn::Join':
