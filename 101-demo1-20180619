@@ -121,7 +121,7 @@ Resources:
 
           - - '#!/bin/bash -xe'
             - sudo yum update -y
-            - sudo yum install -y mailx telnet mutt postfix dovecot
+            - sudo yum install -y mailx dovecot
             - sudo useradd demo
             - sudo echo "demo:demo1" | chpasswd
             - sudo usermod -aG mail demo
