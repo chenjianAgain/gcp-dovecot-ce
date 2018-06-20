@@ -7,6 +7,20 @@ Parameters:
     MinValue: '1'
     MaxValue: '5'
     ConstraintDescription: must be between 1 and 5 EC2 instances.
+Mappings:
+  RegionMap:
+    us-east-1:
+      "AMALINUX" : "ami-afd15ed0" # AMALINUX 2 May 2018 
+      "KeyPairName" : "Joseph-demo" 
+    us-east-2:
+      "AMALINUX" : "ami-71ca9114" # AMALINUX SEP 2016
+    us-west-1:
+      "AMALINUX" : "ami-de347abe" # AMALINUX SEP 2016
+    us-west-2:
+      "AMALINUX" : "ami-b04e92d0" # AMALINUX SEP 2016
+    ca-central-1:
+      "AMALINUX" : "ami-c59818a1" # AMALINUX 2 May 2018 
+      "KeyPairName" : "GD-Joseph-ca-central-1"
 Resources:
   ElasticLoadBalancer:
     Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
@@ -40,7 +54,7 @@ Resources:
   LaunchConfig:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
-      ImageId: ami-afd15ed0
+      ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX]
       InstanceType: t2.micro
       #KeyName: !Ref KeyName
       NetworkInterfaces: 
