@@ -56,7 +56,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "Joseph-Demo-20180619"
+          Value: "Joseph-Demo-20180620"
       VpcId: !Ref VPC
       CidrBlock: 10.0.0.0/24
   VPC:
@@ -75,7 +75,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "Joseph-Demo-20180619"
+          Value: "Joseph-Demo-20180620"
   VPCGatewayAttachment:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
@@ -87,7 +87,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "Joseph-Demo-20180619"
+          Value: "Joseph-Demo-20180620"
       VpcId: !Ref VPC
   PublicRoute:
     Type: 'AWS::EC2::Route'
