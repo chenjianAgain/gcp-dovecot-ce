@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: AWS NLB+ASG+Dovecot+Postfix+EFS PoC Demo
+Description: AWS NLB+TargetGroup+ASG+LaunchConfig+Dovecot+Postfix+EFS PoC Demo
 Parameters:
   EnvironmentSize:
     Type: String
