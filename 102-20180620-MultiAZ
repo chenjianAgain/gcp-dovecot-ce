@@ -132,7 +132,8 @@ Resources:
   EC2AutoScalingGroup:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
-      VPCZoneIdentifier: !Ref PublicSubnet
+      VPCZoneIdentifier: 
+        - !Ref PublicSubnet
       LaunchConfigurationName: !Ref Ec2Instance
       MinSize: 0
       MaxSize: 1
@@ -198,7 +199,8 @@ Resources:
       DefaultActions:
         - Type: forward
           TargetGroupArn: !Ref publicNLBTargetGroup
-      LoadBalancerArn: !Ref publicNLB
+      LoadBalancerArn: 
+        - !Ref publicNLB
       Port: 143
       Protocol: TCP
   publicNLBTargetGroup:
