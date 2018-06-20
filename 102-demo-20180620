@@ -174,8 +174,8 @@ Resources:
             - sudo su
             - yum update -y
             - yum install -y mailx dovecot amazon-efs-utils
-           # - mnt_efs=/mnt/efs
-           # - mkdir -p $mnt_efs
+            - mnt_efs=/mnt/efs
+            - mkdir -p $mnt_efs
            # - mount -t efs fs-efbb24a7:/ $mnt_efs
             - useradd demo
             - echo "demo:demo1" | chpasswd
