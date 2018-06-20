@@ -142,8 +142,12 @@ Resources:
       TargetGroupARNs:
         - !Ref publicNLBTargetGroup
       Tags:
-        - Key: Name
-          Value: "Joseph-Demo-20180620"
+        - 
+          Key: Name
+          Value: !Sub
+            - "${StackName}-docker"
+            - StackName: !Ref AWS::StackName
+          PropagateAtLaunch: true
     CreationPolicy:
       ResourceSignal:
         Timeout: PT15M
