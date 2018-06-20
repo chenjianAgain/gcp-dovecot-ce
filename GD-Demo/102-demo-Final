@@ -249,5 +249,5 @@ Outputs:
   URL:
     Description: Your NLB DNS URL
     Value: !Sub 
-      - 'mutt -f imap://${DNSName}'
+      - 'mutt -f imap://demo@${DNSName}'
       -  DNSName: !GetAtt publicNLB.DNSName
