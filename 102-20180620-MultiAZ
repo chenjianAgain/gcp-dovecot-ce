@@ -168,21 +168,15 @@ Resources:
       UserData: !Base64 
         'Fn::Join':
           - |+
-
           - - '#!/bin/bash -xe'
             - sudo yum update -y
-            - sudo yum install -y mailx dovecot amazon-efs-util
-	    - sudo mnt_efs=/mnt/efs
-	    - sudo mkdir -p $mnt_efs
-	    - sudo mount -t efs fs-efbb24a7:/ $mnt_efs
+            - sudo yum install -y mailx dovecot
             - sudo useradd demo
             - sudo echo "demo:demo1" | chpasswd
             - sudo usermod -aG mail demo
             - sudo sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
-            - sudo sed -i "\$amail_location = mbox:~/mail:INBOX=$mnt_efs/mail/%u" /etc/dovecot/conf.d/10-mail.conf
+            - sudo sed -i '$amail_location = mbox:~/mail:INBOX=/var/mail/%u' /etc/dovecot/conf.d/10-mail.conf
             - sudo systemctl restart dovecot
-	    - sudo postconf -e "mail_spool_directory = $mnt_efs/mail"
-	    - sudo systemctl restart postfix
             - for i in {1..3}
             - do
             - current=`date "+%Y-%m-%d %H:%M:%S"`
