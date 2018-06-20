@@ -58,9 +58,7 @@ Resources:
       ImageId: ami-c59818a1
       SecurityGroups:
         - !Ref Ec2SecurityGroup
-      SpotPrice: !Ref SpotPrice
-      InstanceType: !Ref SpotInstanceType
-      KeyName: !Ref KeyName
+      InstanceType: t2.micro
       AssociatePublicIpAddress: 'true'
       UserData:
         'Fn::Base64': !Sub >
