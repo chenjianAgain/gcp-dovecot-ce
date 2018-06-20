@@ -191,7 +191,8 @@ Resources:
         - '${StackName}-nlb'
         - StackName: !Ref 'AWS::StackName'
       Scheme: internet-facing
-      Subnets: !Ref PublicSubnet
+      Subnets: 
+        - !Ref PublicSubnet
       Tags:
         - Key: Name
           Value: !Sub 
