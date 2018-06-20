@@ -205,7 +205,7 @@ Resources:
         - Type: forward
           TargetGroupArn: !Ref publicNLBTargetGroup
       LoadBalancerArn: 
-        - !Ref publicNLB
+        Ref: publicNLB
       Port: 143
       Protocol: TCP
   publicNLBTargetGroup:
