@@ -65,7 +65,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "GD-Demo-1"
+          Value: "GD-Demo-2"
       EnableDnsSupport: 'true'
       EnableDnsHostnames: 'true'
       CidrBlock: 10.0.0.0/16
