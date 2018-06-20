@@ -48,8 +48,6 @@ Resources:
           DeviceIndex: "0"
           GroupSet: 
             - all-traffic-allowed
-          SubnetId: 
-            Ref: "PublicSubnet"
       UserData: !Base64 
         'Fn::Join':
           - |+
