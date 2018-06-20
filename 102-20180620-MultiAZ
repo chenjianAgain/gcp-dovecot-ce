@@ -55,7 +55,7 @@ Resources:
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
-      ImageId: !GetAtt AMIInfo.Id
+      ImageId: ami-c59818a1
       SecurityGroups:
         - !Ref Ec2SecurityGroup
       SpotPrice: !Ref SpotPrice
