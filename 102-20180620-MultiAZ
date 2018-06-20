@@ -1,0 +1,87 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  WebServerCapacity:
+    Default: '2'
+    Description: The initial number of WebServer instances
+    Type: Number
+    MinValue: '1'
+    MaxValue: '5'
+    ConstraintDescription: must be between 1 and 5 EC2 instances.
+Resources:
+  ElasticLoadBalancer:
+    Type: 'AWS::ElasticLoadBalancing::LoadBalancer'
+    Properties:
+      AvailabilityZones: !GetAZs ''
+      LBCookieStickinessPolicy:
+        - PolicyName: CookieBasedPolicy
+          CookieExpirationPeriod: '30'
+      Listeners:
+        - LoadBalancerPort: '143'
+          InstancePort: '143'
+          Protocol: TCP
+          PolicyNames:
+            - CookieBasedPolicy
+      HealthCheck:
+        Target: 'TCP:143/'
+        HealthyThreshold: '2'
+        UnhealthyThreshold: '5'
+        Interval: '10'
+        Timeout: '5'
+  WebServerGroup:
+    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Properties:
+      AvailabilityZones: !GetAZs ''
+      LaunchConfigurationName: !Ref LaunchConfig
+      MinSize: '1'
+      MaxSize: '5'
+      DesiredCapacity: !Ref WebServerCapacity
+      LoadBalancerNames:
+        - !Ref ElasticLoadBalancer
+  LaunchConfig:
+    Type: 'AWS::AutoScaling::LaunchConfiguration'
+    Properties:
+      ImageId: ami-afd15ed0
+      InstanceType: t2.micro
+      #KeyName: !Ref KeyName
+      NetworkInterfaces: 
+        #- AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          GroupSet: 
+            - all-traffic-allowed
+          SubnetId: 
+            Ref: "PublicSubnet"
+      UserData: !Base64 
+        'Fn::Join':
+          - |+
+
+          - - '#!/bin/bash -xe'
+            - sudo yum update -y
+            - sudo yum install -y mailx dovecot
+            - sudo useradd demo
+            - sudo echo "demo:demo1" | chpasswd
+            - sudo usermod -aG mail demo
+            - sudo sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
+            - sudo sed -i '$amail_location = mbox:~/mail:INBOX=/var/mail/%u' /etc/dovecot/conf.d/10-mail.conf
+            - sudo systemctl restart dovecot
+            - for i in {1..3}
+            - do
+            - current=`date "+%Y-%m-%d %H:%M:%S"`
+            - echo "hello-$i at $current" | mail -s "test$i-$current" demo@localhost.
+            - done
+
+  WaitHandle:
+    Type: 'AWS::CloudFormation::WaitConditionHandle'
+  WaitCondition:
+    Type: 'AWS::CloudFormation::WaitCondition'
+    DependsOn: WebServerGroup
+    Properties:
+      Timeout: '1500'
+Outputs:
+  WebsiteURL:
+    Value: !Join 
+      - ''
+      - - 'http://'
+        - !GetAtt 
+          - ElasticLoadBalancer
+          - DNSName
+    Description: URL for Insoshi
