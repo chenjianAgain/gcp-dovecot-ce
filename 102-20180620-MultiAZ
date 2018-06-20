@@ -51,6 +51,32 @@ Resources:
       DesiredCapacity: !Ref WebServerCapacity
       LoadBalancerNames:
         - !Ref ElasticLoadBalancer
+  ImapServerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "Joseph-Demo-20180620"
+      GroupDescription: Enable IMAP/POP3 ingress, 225 for LMTP
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '143'
+          ToPort: '143'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '22'
+          ToPort: '22'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '110'
+          ToPort: '110'
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: '225'
+          ToPort: '225'
+          CidrIp: 0.0.0.0/0
   LaunchConfig:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
@@ -61,7 +87,7 @@ Resources:
         #- AssociatePublicIpAddress: "true"
           DeviceIndex: "0"
           GroupSet: 
-            - all-traffic-allowed
+            - Ref: "ImapServerSecurityGroup"
       UserData: !Base64 
         'Fn::Join':
           - |+
