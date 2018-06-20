@@ -182,8 +182,7 @@ Resources:
             - sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
             - sed -i "\$amail_location = mbox:~/mail:INBOX=$mnt_efs/mail/%u" /etc/dovecot/conf.d/10-mail.conf
             - systemctl restart dovecot
-            - postconf -e "mail_spool_directory = $mnt_efs/mail"
-            - systemctl restart postfix
+            
   publicNLB:
     Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
     Properties:
