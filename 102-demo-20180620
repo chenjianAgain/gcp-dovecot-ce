@@ -156,15 +156,15 @@ Resources:
             - "${StackName}-demo"
             - StackName: !Ref AWS::StackName
           PropagateAtLaunch: true
-    CreationPolicy:
-      ResourceSignal:
-        Timeout: PT15M
-    UpdatePolicy:
-      AutoScalingRollingUpdate:
-        MinInstancesInService: '0'
-        MaxBatchSize: '1'
-        PauseTime: PT15M
-        WaitOnResourceSignals: 'true'
+   # CreationPolicy:
+   #   ResourceSignal:
+   #     Timeout: PT15M
+   # UpdatePolicy:
+   #   AutoScalingRollingUpdate:
+   #     MinInstancesInService: '0'
+   #     MaxBatchSize: '1'
+   #     PauseTime: PT15M
+   #     WaitOnResourceSignals: 'true'
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
