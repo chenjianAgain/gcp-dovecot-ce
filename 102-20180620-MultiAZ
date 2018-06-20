@@ -205,11 +205,11 @@ Resources:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
       HealthCheckIntervalSeconds: 10
-      HealthCheckPath: /
+     # HealthCheckPath: /
       HealthCheckProtocol: TCP
       HealthyThresholdCount: 2
       UnhealthyThresholdCount: 2
-    #  Matcher:
+     # Matcher:
      #   HttpCode: 200-399
       Name: !Sub 
         - '${StackName}-tcp-tg'
