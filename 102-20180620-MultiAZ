@@ -145,7 +145,7 @@ Resources:
         - 
           Key: Name
           Value: !Sub
-            - "${StackName}-docker"
+            - "${StackName}-demo"
             - StackName: !Ref AWS::StackName
           PropagateAtLaunch: true
     CreationPolicy:
