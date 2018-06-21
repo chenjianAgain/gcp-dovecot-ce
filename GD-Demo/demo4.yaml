@@ -96,10 +96,10 @@ Resources:
       MaxSize: 3
       DesiredCapacity: 3
       HealthCheckGracePeriod: 300
-      # TargetGroupARNs:
-        # - !Ref publicNLBTargetGroupIMAP
-        # - !Ref publicNLBTargetGroupPOP3
-        # - !Ref publicNLBTargetGroupSMTP
+      TargetGroupARNs:
+        - !Ref publicNLBTargetGroupIMAP
+        - !Ref publicNLBTargetGroupPOP3
+        - !Ref publicNLBTargetGroupSMTP
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
