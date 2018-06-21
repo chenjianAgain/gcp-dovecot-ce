@@ -87,7 +87,29 @@ Resources:
       FromPort: 25
       ToPort: 25
       CidrIp: 0.0.0.0/0
-
+  EC2AutoScalingGroup:
+    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Properties:
+      VPCZoneIdentifier: 
+        - !Ref PublicSubnet
+      LaunchConfigurationName: !Ref Ec2Instance
+      MinSize: 3
+      MaxSize: 3
+      DesiredCapacity: 3
+      HealthCheckGracePeriod: 300
+      TargetGroupARNs:
+        # - !Ref publicNLBTargetGroupIMAP
+        # - !Ref publicNLBTargetGroupPOP3
+        # - !Ref publicNLBTargetGroupSMTP
+  Ec2Instance:
+    Type: 'AWS::AutoScaling::LaunchConfiguration'
+    Properties:
+      ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
+      SecurityGroups:
+        - !Ref Ec2SecurityGroup
+      InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
+      AssociatePublicIpAddress: 'true'
+      UserData:
 Outputs:
   URL:
     Description: Your NLB DNS URL
