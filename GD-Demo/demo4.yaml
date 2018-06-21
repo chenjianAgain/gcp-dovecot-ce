@@ -178,6 +178,7 @@ Resources:
       UnhealthyThresholdCount: 2
       Port: 143
       Protocol: TCP
+      VpcId: vpc-51496236
   publicNLBTargetGroupPOP3:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
@@ -187,6 +188,7 @@ Resources:
       UnhealthyThresholdCount: 2
       Port: 110
       Protocol: TCP
+      VpcId: vpc-51496236
   publicNLBTargetGroupSMTP:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
@@ -196,6 +198,7 @@ Resources:
       UnhealthyThresholdCount: 2
       Port: 25
       Protocol: TCP
+	    VpcId: vpc-51496236
 Outputs:
   URL:
     Description: Your NLB DNS URL
