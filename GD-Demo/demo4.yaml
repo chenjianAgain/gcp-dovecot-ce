@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: AWS CustomizedVPC+NLB+TargetGroup+ASG+LaunchConfig+Dovecot+Postfix+LinuxFileSystem PoC Demo
+Description: AWS DefaultVPC+NLB+TargetGroup+ASG+LaunchConfig+Dovecot+Postfix+LinuxFileSystem PoC Demo
 Parameters:
   EnvironmentSize:
     Type: String
