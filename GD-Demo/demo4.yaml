@@ -89,6 +89,7 @@ Resources:
   EC2AutoScalingGroup:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
+      KeyName: Joseph-demo
       AvailabilityZones: 
         Fn::GetAZs: ""     
       LaunchConfigurationName: !Ref Ec2Instance
