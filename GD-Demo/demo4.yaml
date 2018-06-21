@@ -107,6 +107,7 @@ Resources:
       ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       SecurityGroups:
         - !Ref Ec2SecurityGroup
+        - default
       InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
       UserData:
         "Fn::Base64":
