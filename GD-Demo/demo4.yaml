@@ -108,7 +108,6 @@ Resources:
       SecurityGroups:
         - !Ref Ec2SecurityGroup
       InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
-      AssociatePublicIpAddress: 'true'
 Outputs:
   URL:
     Description: Your NLB DNS URL
