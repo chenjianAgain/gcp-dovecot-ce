@@ -64,24 +64,32 @@ Resources:
           NetworkInterfaceId: eni-c16830f8
           DeviceIndex: 0
       # KeyName: !FindInMap [RegionMap, !Ref "AWS::Region", KeyPairName]
-      UserData: !Base64 
-        'Fn::Join':
-          - |+
-
-          - - '#!/bin/bash -xe'
-            - sudo yum update -y
-            - sudo yum install -y mailx dovecot
-            - sudo useradd demo
-            - sudo echo "demo:demo1" | chpasswd
-            - sudo usermod -aG mail demo
-            - sudo sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
-            - sudo sed -i '$amail_location = mbox:~/mail:INBOX=/var/mail/%u' /etc/dovecot/conf.d/10-mail.conf
-            - sudo systemctl restart dovecot
-            - for i in {1..3}
-            - do
-            - current=`date "+%Y-%m-%d %H:%M:%S"`
-            - echo "hello-$i at $current" | mail -s "test$i-$current" demo@localhost.
-            - done
+      UserData:
+        "Fn::Base64":
+          !Sub |
+          #!/bin/bash
+          sudo su -
+          yum install -y mailx telnet mutt postfix dovecot
+          yum update -y
+          setenforce 0
+          systemctl stop firewalld
+          useradd demo
+          echo "demo:demo1" | chpasswd
+          usermod -aG mail demo
+          sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
+          sed -i '$amail_location = mbox:~/mail:INBOX=/var/mail/%u' /etc/dovecot/conf.d/10-mail.conf
+          systemctl restart dovecot
+          # Let postfix recieve all traffic, not only localhost
+          postconf -e "inet_interfaces = all"
+          postconf -e "mydestination = josephaws.one, email.josephaws.one, josephaws.com, email.josephaws.com, localhost"
+          systemctl restart postfix
+          # Prepare some data for imap/pop3 test
+          for i in {1..3}
+          do
+              #echo "Welcome $i times"
+              current=`date "+%Y-%m-%d %H:%M:%S"` 
+              echo "hello-$i at $current" | mail -s "test$i-$current" demo@localhost.
+          done
 Outputs:
   URL:
     Description: URL of the sample website
