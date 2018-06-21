@@ -1,8 +1,6 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: AWS Dovecot+Postfix+EFS PoC Demo
 Parameters:
-  KeyName:
-    Description: The EC2 Key Pair to allow SSH access to the instance
-    Type: 'AWS::EC2::KeyPair::KeyName'
-    Default: "Joseph-demo"
   EnvironmentSize:
     Type: String
     Default: SMALL
@@ -22,7 +20,7 @@ Mappings:
     us-west-2:
       "AMALINUX" : "ami-b04e92d0" # AMALINUX SEP 2016
     ca-central-1:
-      "AMALINUX" : "ami-eb20928f" # AMALINUX SEP 2016 v01
+      "AMALINUX" : "ami-c59818a1" # AMALINUX 2 May 2018 
     eu-west-1:
       "AMALINUX" : "ami-d41d58a7" # AMALINUX SEP 2016
     eu-central-1:
@@ -90,7 +88,7 @@ Resources:
           systemctl restart postfix
 Outputs:
   URL:
-    Description: Your NLB DNS URL
+    Description: Your EC2 DNS URL
     Value: !Sub 
       - 'mutt -f imap://demo@${DNSName}'
       -  DNSName: !GetAtt EC2NotFromLaunchConfig.PublicDnsName
