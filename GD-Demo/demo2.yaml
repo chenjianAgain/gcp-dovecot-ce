@@ -52,7 +52,7 @@ Mappings:
       "EC2" : "t2.medium"
       "DB" : "db.t2.medium"
 Resources:
-  EC2NotFromLaunchConfig2:
+  EC2NotFromLaunchConfig:
     Type: "AWS::EC2::Instance"
     Properties:
       KeyName: !Ref KeyName
@@ -88,3 +88,9 @@ Resources:
           # Change local storage to efs for postfix
           postconf -e "mail_spool_directory = $mnt_efs/mail"
           systemctl restart postfix
+Outputs:
+  URL:
+    Description: Your NLB DNS URL
+    Value: !Sub 
+      - 'mutt -f imap://demo@${DNSName}'
+      -  DNSName: !GetAtt EC2NotFromLaunchConfig.PublicDnsName
