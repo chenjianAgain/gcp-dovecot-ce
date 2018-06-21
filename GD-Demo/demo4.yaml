@@ -1,6 +1,9 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: AWS DefaultVPC+NLB+TargetGroup+ASG+LaunchConfig+Dovecot+Postfix+LinuxFileSystem PoC Demo
 Parameters:
+  LoadBalancerSubnetsParameter:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: The list of subnets IDs for the Load Balancer
   EnvironmentSize:
     Type: String
     Default: SMALL
@@ -139,7 +142,7 @@ Resources:
     Properties:
       Type: network
       Scheme: internet-facing
-      Subnets: subnet-233dc278
+      Subnets: !Ref LoadBalancerSubnetsParameter
   
   NLBListenerIMAP:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
