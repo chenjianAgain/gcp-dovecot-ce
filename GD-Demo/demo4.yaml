@@ -89,7 +89,6 @@ Resources:
   EC2AutoScalingGroup:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     Properties:
-      KeyName: Joseph-demo
       AvailabilityZones: 
         Fn::GetAZs: ""     
       LaunchConfigurationName: !Ref Ec2Instance
@@ -104,6 +103,7 @@ Resources:
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
+      KeyName: Joseph-demo
       ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       SecurityGroups:
         - !Ref Ec2SecurityGroup
