@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: AWS EIP+EC2+Dovecot+Postfix+LinuxFileSystem PoC Demo
+Description: AWS DefaultVPC+EIP+EC2+Dovecot+Postfix+LinuxFileSystem PoC Demo
 Parameters:
   EnvironmentSize:
     Type: String
