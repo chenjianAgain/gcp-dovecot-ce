@@ -20,7 +20,7 @@ Mappings:
     us-west-2:
       "AMALINUX" : "ami-b04e92d0" # AMALINUX SEP 2016
     ca-central-1:
-      "AMALINUX" : "ami-eb20928f" # AMALINUX SEP 2016 v01
+      "AMALINUX" : "ami-c59818a1" # AMALINUX 2 May 2018 
     eu-west-1:
       "AMALINUX" : "ami-d41d58a7" # AMALINUX SEP 2016
     eu-central-1:
@@ -168,7 +168,7 @@ Resources:
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
-      KeyName: Joseph-demo
+      # KeyName: Joseph-demo
       ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       SecurityGroups:
         - !Ref Ec2SecurityGroup
