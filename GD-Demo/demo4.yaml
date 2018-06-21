@@ -54,7 +54,6 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: EC2 Security Group
-      GroupName: "dvc-ce"
   ingress1:
     Type: 'AWS::EC2::SecurityGroupIngress'
     Properties:
