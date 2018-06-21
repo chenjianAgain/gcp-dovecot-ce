@@ -92,10 +92,7 @@ Resources:
           done
 Outputs:
   URL:
-    Description: URL of the sample website
-    Value: !Join 
-      - ''
-      - - 'mutt -f imap://demo@'
-        - !GetAtt 
-          - ImapServerInstance
-          - PublicDnsName
+    Description: Your EC2 DNS URL
+    Value: !Sub 
+      - 'mutt -f imap://demo@${DNSName}'
+      -  DNSName: !GetAtt EC2NotFromLaunchConfig.PublicDnsName
