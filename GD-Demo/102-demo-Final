@@ -56,7 +56,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "Joseph-Demo-20180620"
+          Value: "Joseph-Demo-20180621"
       VpcId: !Ref VPC
       CidrBlock: 10.0.0.0/24
   VPC:
@@ -65,7 +65,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "GD-Demo-1"
+          Value: "GD-Demo-2"
       EnableDnsSupport: 'true'
       EnableDnsHostnames: 'true'
       CidrBlock: 10.0.0.0/16
@@ -75,7 +75,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "Joseph-Demo-20180620"
+          Value: "Joseph-Demo-20180621"
   VPCGatewayAttachment:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
@@ -87,7 +87,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "Joseph-Demo-20180620"
+          Value: "Joseph-Demo-20180621"
       VpcId: !Ref VPC
   PublicRoute:
     Type: 'AWS::EC2::Route'
@@ -158,6 +158,7 @@ Resources:
       TargetGroupARNs:
         - !Ref publicNLBTargetGroupIMAP
         - !Ref publicNLBTargetGroupPOP3
+        - !Ref publicNLBTargetGroupSMTP
       Tags:
         - 
           Key: Name
@@ -235,6 +236,16 @@ Resources:
         Ref: publicNLB
       Port: 143
       Protocol: TCP
+  NLBListenerSMTP:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref publicNLBTargetGroupSMTP
+      LoadBalancerArn: 
+        Ref: publicNLB
+      Port: 25
+      Protocol: TCP
   NLBListenerPOP3:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
     Properties:
@@ -278,6 +289,25 @@ Resources:
         - '${StackName}-tcp-pop3-tg'
         - StackName: !Ref 'AWS::StackName'
       Port: 110
+      Protocol: TCP
+      Tags:
+        - Key: Name
+          Value: nlb-tg
+      VpcId: !Ref VPC
+  publicNLBTargetGroupSMTP:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      HealthCheckIntervalSeconds: 10
+     # HealthCheckPath: /
+      HealthCheckProtocol: TCP
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 2
+     # Matcher:
+     #   HttpCode: 200-399
+      Name: !Sub 
+        - '${StackName}-tcp-smtp-tg'
+        - StackName: !Ref 'AWS::StackName'
+      Port: 25
       Protocol: TCP
       Tags:
         - Key: Name
