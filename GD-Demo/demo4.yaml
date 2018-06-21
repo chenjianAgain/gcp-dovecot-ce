@@ -139,8 +139,7 @@ Resources:
     Properties:
       Type: network
       Scheme: internet-facing
-      Subnets: 
-        - subnet-233dc278
+      Subnets: subnet-233dc278
   
   NLBListenerIMAP:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
