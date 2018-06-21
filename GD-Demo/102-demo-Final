@@ -156,7 +156,8 @@ Resources:
       DesiredCapacity: 3
       HealthCheckGracePeriod: 300
       TargetGroupARNs:
-        - !Ref publicNLBTargetGroup
+        - !Ref publicNLBTargetGroupIMAP
+        - !Ref publicNLBTargetGroupPOP3
       Tags:
         - 
           Key: Name
@@ -224,17 +225,27 @@ Resources:
           Value: !Sub 
             - '${StackName}-nlb'
             - StackName: !Ref 'AWS::StackName'
-  NLBListener:
+  NLBListenerIMAP:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
     Properties:
       DefaultActions:
         - Type: forward
-          TargetGroupArn: !Ref publicNLBTargetGroup
+          TargetGroupArn: !Ref publicNLBTargetGroupIMAP
       LoadBalancerArn: 
         Ref: publicNLB
       Port: 143
       Protocol: TCP
-  publicNLBTargetGroup:
+  NLBListenerPOP3:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref publicNLBTargetGroupPOP3
+      LoadBalancerArn: 
+        Ref: publicNLB
+      Port: 110
+      Protocol: TCP
+  publicNLBTargetGroupIMAP:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
       HealthCheckIntervalSeconds: 10
@@ -245,9 +256,28 @@ Resources:
      # Matcher:
      #   HttpCode: 200-399
       Name: !Sub 
-        - '${StackName}-tcp-tg'
+        - '${StackName}-tcp-imap-tg'
         - StackName: !Ref 'AWS::StackName'
       Port: 143
+      Protocol: TCP
+      Tags:
+        - Key: Name
+          Value: nlb-tg
+      VpcId: !Ref VPC
+  publicNLBTargetGroupPOP3:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      HealthCheckIntervalSeconds: 10
+     # HealthCheckPath: /
+      HealthCheckProtocol: TCP
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 2
+     # Matcher:
+     #   HttpCode: 200-399
+      Name: !Sub 
+        - '${StackName}-tcp-pop3-tg'
+        - StackName: !Ref 'AWS::StackName'
+      Port: 110
       Protocol: TCP
       Tags:
         - Key: Name
