@@ -58,7 +58,7 @@ Resources:
   ingress1:
     Type: 'AWS::EC2::SecurityGroupIngress'
     Properties:
-      GroupId: !Ref Ec2SecurityGroup
+      GroupId: !GetAtt Ec2SecurityGroup.GroupId
       IpProtocol: tcp
       FromPort: 110
       ToPort: 110
@@ -66,7 +66,7 @@ Resources:
   ingress2:
     Type: 'AWS::EC2::SecurityGroupIngress'
     Properties:
-      GroupId: !Ref Ec2SecurityGroup
+      GroupId: !GetAtt Ec2SecurityGroup.GroupId
       IpProtocol: tcp
       FromPort: 143
       ToPort: 143
@@ -74,7 +74,7 @@ Resources:
   ingress3:
     Type: 'AWS::EC2::SecurityGroupIngress'
     Properties:
-      GroupId: !Ref Ec2SecurityGroup
+      GroupId: !GetAtt Ec2SecurityGroup.GroupId
       IpProtocol: tcp
       FromPort: 22
       ToPort: 22
@@ -82,7 +82,7 @@ Resources:
   ingress4:
     Type: 'AWS::EC2::SecurityGroupIngress'
     Properties:
-      GroupId: !Ref Ec2SecurityGroup
+      GroupId: !GetAtt Ec2SecurityGroup.GroupId
       IpProtocol: tcp
       FromPort: 25
       ToPort: 25
