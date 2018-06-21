@@ -133,6 +133,69 @@ Resources:
           postconf -e "inet_interfaces = all"
           postconf -e "mydestination = josephaws.one, email.josephaws.one, josephaws.com, email.josephaws.com, localhost"
           systemctl restart postfix
+          
+  publicNLB:
+    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    Properties:
+      Type: network
+      Scheme: internet-facing
+  NLBListenerIMAP:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref publicNLBTargetGroupIMAP
+      LoadBalancerArn: 
+        Ref: publicNLB
+      Port: 143
+      Protocol: TCP
+  NLBListenerPOP3:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref publicNLBTargetGroupPOP3
+      LoadBalancerArn: 
+        Ref: publicNLB
+      Port: 110
+      Protocol: TCP
+  NLBListenerSMTP:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref publicNLBTargetGroupSMTP
+      LoadBalancerArn: 
+        Ref: publicNLB
+      Port: 25
+      Protocol: TCP
+  publicNLBTargetGroupIMAP:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      HealthCheckIntervalSeconds: 10
+      HealthCheckProtocol: TCP
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 2
+      Port: 143
+      Protocol: TCP
+  publicNLBTargetGroupPOP3:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      HealthCheckIntervalSeconds: 10
+      HealthCheckProtocol: TCP
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 2
+      Port: 110
+      Protocol: TCP
+  publicNLBTargetGroupSMTP:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      HealthCheckIntervalSeconds: 10
+      HealthCheckProtocol: TCP
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 2
+      Port: 25
+      Protocol: TCP
 Outputs:
   URL:
     Description: Your NLB DNS URL
