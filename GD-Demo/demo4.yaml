@@ -88,4 +88,9 @@ Resources:
       ToPort: 25
       CidrIp: 0.0.0.0/0
 
-
+Outputs:
+  URL:
+    Description: Your NLB DNS URL
+    Value: !Sub 
+      - '{SGName}'
+      -  SGName: !GetAtt Ec2SecurityGroup.GroupId
