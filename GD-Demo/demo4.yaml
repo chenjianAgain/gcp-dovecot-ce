@@ -97,7 +97,7 @@ Resources:
       MaxSize: 3
       DesiredCapacity: 3
       HealthCheckGracePeriod: 300
-      TargetGroupARNs:
+      # TargetGroupARNs:
         # - !Ref publicNLBTargetGroupIMAP
         # - !Ref publicNLBTargetGroupPOP3
         # - !Ref publicNLBTargetGroupSMTP
