@@ -50,7 +50,7 @@ Mappings:
       "EC2" : "t2.medium"
       "DB" : "db.t2.medium"
 Resources:
-  ImapServerInstance:
+  EC2NotFromLaunchConfig:
     Type: 'AWS::EC2::Instance'
     Properties:
       InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
