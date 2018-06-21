@@ -85,6 +85,8 @@ Resources:
           systemctl restart dovecot
           # Change local storage to efs for postfix
           postconf -e "mail_spool_directory = $mnt_efs/mail"
+          postconf -e "inet_interfaces = all"
+          postconf -e "mydestination = josephaws.one, email.josephaws.one, josephaws.com, email.josephaws.com, localhost"
           systemctl restart postfix
 Outputs:
   URL:
