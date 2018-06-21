@@ -58,7 +58,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "Joseph-Demo-20180619"
+          Value: "demo1"
       NetworkInterfaces: 
         - 
           NetworkInterfaceId: eni-c16830f8
