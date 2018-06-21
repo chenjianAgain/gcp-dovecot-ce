@@ -1,9 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: AWS DefaultVPC+NLB+TargetGroup+ASG+LaunchConfig+Dovecot+Postfix+LinuxFileSystem PoC Demo
 Parameters:
-  LoadBalancerSubnetsParameter:
-    Type: List<AWS::EC2::Subnet::Id>
-    Description: The list of subnets IDs for the Load Balancer
   EnvironmentSize:
     Type: String
     Default: SMALL
@@ -142,7 +139,11 @@ Resources:
     Properties:
       Type: network
       Scheme: internet-facing
-      Subnets: !Ref LoadBalancerSubnetsParameter
+      Subnets:
+        - subnet-233dc278
+        - subnet-e91898e5
+        - subnet-6a31540f
+        
   
   NLBListenerIMAP:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
@@ -174,41 +175,7 @@ Resources:
         Ref: publicNLB
       Port: 25
       Protocol: TCP
-  publicNLB:
-    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
-    Properties:
-      Type: network
-      Scheme: internet-facing
-  NLBListenerIMAP:
-    Type: 'AWS::ElasticLoadBalancingV2::Listener'
-    Properties:
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref publicNLBTargetGroupIMAP
-      LoadBalancerArn: 
-        Ref: publicNLB
-      Port: 143
-      Protocol: TCP
-  NLBListenerPOP3:
-    Type: 'AWS::ElasticLoadBalancingV2::Listener'
-    Properties:
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref publicNLBTargetGroupPOP3
-      LoadBalancerArn: 
-        Ref: publicNLB
-      Port: 110
-      Protocol: TCP
-  NLBListenerSMTP:
-    Type: 'AWS::ElasticLoadBalancingV2::Listener'
-    Properties:
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref publicNLBTargetGroupSMTP
-      LoadBalancerArn: 
-        Ref: publicNLB
-      Port: 25
-      Protocol: TCP
+
   publicNLBTargetGroupIMAP:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
