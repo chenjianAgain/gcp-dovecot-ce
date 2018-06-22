@@ -210,5 +210,5 @@ Outputs:
   URL:
     Description: Your NLB DNS URL
     Value: !Sub 
-      - '${SGName}'
-      -  SGName: !GetAtt Ec2SecurityGroup.GroupId
+      - 'mutt -f imap://demo@${DNSName}'
+      -  DNSName: !GetAtt publicNLB.DNSName
