@@ -222,3 +222,10 @@ Resources:
       Port: 25
       Protocol: TCP
       VpcId: vpc-51496236
+
+Outputs:
+  URL:
+    Description: Your NLB DNS URL
+    Value: !Sub 
+      - 'mutt -f imap://demo@${DNSName}'
+      -  DNSName: !GetAtt publicNLB.DNSName
