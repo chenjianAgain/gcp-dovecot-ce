@@ -62,7 +62,7 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: EC2 Security Group
-	  
+
   ingress1:
     Type: 'AWS::EC2::SecurityGroupIngress'
     Properties:
@@ -71,7 +71,7 @@ Resources:
       FromPort: 110
       ToPort: 110
       CidrIp: 0.0.0.0/0
-	  
+
   ingress2:
     Type: 'AWS::EC2::SecurityGroupIngress'
     Properties:
@@ -80,7 +80,7 @@ Resources:
       FromPort: 143
       ToPort: 143
       CidrIp: 0.0.0.0/0
-	  
+
   ingress3:
     Type: 'AWS::EC2::SecurityGroupIngress'
     Properties:
@@ -89,7 +89,7 @@ Resources:
       FromPort: 22
       ToPort: 22
       CidrIp: 0.0.0.0/0
-	  
+
   ingress4:
     Type: 'AWS::EC2::SecurityGroupIngress'
     Properties:
@@ -109,7 +109,7 @@ Resources:
       MaxSize: 3
       DesiredCapacity: 3
       HealthCheckGracePeriod: 300
-	  
+
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
