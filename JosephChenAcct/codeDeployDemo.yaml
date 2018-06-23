@@ -25,17 +25,12 @@ Parameters:
       Comma delimited list of AvailabilityZones where the instances will be
       created
     Type: CommaDelimitedList
-    Default: 
-      - us-east-1a
-        us-east-1b
-        us-east-1c
+    Default: us-east-1a
+
   PublicSubnets:
     Description: Comma delimited list of public subnets
     Type: CommaDelimitedList
-    Default: 
-      - subnet-233dc278
-        subnet-6a31540f
-        subnet-db4de592
+    Default: subnet-db4de592
   InstanceType:
     Description: Provide InstanceType to be used
     Type: String
