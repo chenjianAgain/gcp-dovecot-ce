@@ -14,7 +14,7 @@ Parameters:
       Use the full ARN for SimpleCodeDeployInstanceProfile or
       AdvancedCodeDeployInstanceProfile
     Type: String
-    Default: SimplyCDInstanceProfilePolicy
+    Default: "arn:aws:iam::944574695791:policy/SimplyCDInstanceProfilePolicy"
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instances
     Type: 'AWS::EC2::KeyPair::KeyName'
