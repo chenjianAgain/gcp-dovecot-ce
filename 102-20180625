@@ -1,0 +1,32 @@
+Parameters:
+  FirstSubnet:
+    Type: String
+  SecondSubnet:
+    Type: String
+  ELBType:
+    Type: String
+  ELBIpAddressType:
+    Type: String
+Resources:
+  loadBalancer:
+    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    Properties:
+      SubnetMappings:
+        - AllocationId: !GetAtt 
+            - FirstEIP
+            - AllocationId
+          SubnetId: !Ref FirstSubnet
+        - AllocationId: !GetAtt 
+            - SecondEIP
+            - AllocationId
+          SubnetId: !Ref SecondSubnet
+      Type: !Ref ELBType
+      IpAddressType: !Ref ELBIpAddressType
+  FirstEIP:
+    Type: 'AWS::EC2::EIP'
+    Properties:
+      Domain: vpc
+  SecondEIP:
+    Type: 'AWS::EC2::EIP'
+    Properties:
+      Domain: vpc
