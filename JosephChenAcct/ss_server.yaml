@@ -134,7 +134,7 @@ Resources:
         - !Ref KeyName
       NetworkInterfaces: 
         - 
-          NetworkInterfaceId: eni-47b7c859
+          NetworkInterfaceId: eni-2a2b561b
           DeviceIndex: 0
 
       Tags:
@@ -170,7 +170,7 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: Allow connection port and ssh
-      VpcId: !Ref Vpc
+      VpcId: vpc-72077815
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: !Ref ConnectionPort
@@ -180,40 +180,7 @@ Resources:
           FromPort: '22'
           ToPort: '22'
           CidrIp: 0.0.0.0/0
-  Vpc:
-    Type: 'AWS::EC2::VPC'
-    Properties:
-      EnableDnsSupport: 'true'
-      EnableDnsHostnames: 'true'
-      CidrBlock: 10.1.0.0/16
-  Subnet:
-    Type: 'AWS::EC2::Subnet'
-    Properties:
-      VpcId: !Ref Vpc
-      CidrBlock: 10.1.0.0/24
-  InternetGateway:
-    Type: 'AWS::EC2::InternetGateway'
-  VPCGatewayAttachment:
-    Type: 'AWS::EC2::VPCGatewayAttachment'
-    Properties:
-      VpcId: !Ref Vpc
-      InternetGatewayId: !Ref InternetGateway
-  PublicRoute:
-    Type: 'AWS::EC2::Route'
-    DependsOn: VPCGatewayAttachment
-    Properties:
-      RouteTableId: !Ref PublicRouteTable
-      DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref InternetGateway
-  PublicRouteTable:
-    Type: 'AWS::EC2::RouteTable'
-    Properties:
-      VpcId: !Ref Vpc
-  PublicSubnetRouteTableAssociation:
-    Type: 'AWS::EC2::SubnetRouteTableAssociation'
-    Properties:
-      SubnetId: !Ref Subnet
-      RouteTableId: !Ref PublicRouteTable
+
 Outputs:
   PrivateKey:
     Description: Unencrypted PEM encoded RSA private key
