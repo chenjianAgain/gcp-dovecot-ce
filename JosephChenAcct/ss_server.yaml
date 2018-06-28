@@ -166,20 +166,7 @@ Resources:
             - 'echo ''}'' |sudo tee /etc/shadowsocks.json -a'
             - sudo ssserver -c /etc/shadowsocks.json -d start
             - ''
-  ServerSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: Allow connection port and ssh
-      VpcId: vpc-72077815
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: !Ref ConnectionPort
-          ToPort: !Ref ConnectionPort
-          CidrIp: 0.0.0.0/0
-        - IpProtocol: tcp
-          FromPort: '22'
-          ToPort: '22'
-          CidrIp: 0.0.0.0/0
+
 
 Outputs:
   PrivateKey:
