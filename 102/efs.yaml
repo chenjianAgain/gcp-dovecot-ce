@@ -58,6 +58,7 @@ Parameters:
     ConstraintDescription: Must be a valid EC2 instance type.
   KeyName:
     Type: AWS::EC2::KeyPair::KeyName
+    Default: Joseph-demo
     Description: Name of an existing EC2 key pair to enable SSH access to the ECS
       instances
   AsgMaxSize:
