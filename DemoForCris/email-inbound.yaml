@@ -52,6 +52,10 @@ Mappings:
 Resources:
   EC2NotFromLaunchConfig:
     Type: "AWS::EC2::Instance"
+    CreationPolicy:
+      ResourceSignal:
+        Count: "1"
+        Timeout: PT15M
     Properties:
       # KeyName: !Ref KeyName      
       NetworkInterfaces: 
@@ -69,7 +73,7 @@ Resources:
           !Sub |
           #!/bin/bash
           sudo su -
-          yum install -y mailx telnet mutt dovecot amazon-efs-utils
+          yum install -y mailx telnet mutt dovecot amazon-efs-utils aws-cfn-bootstrap
           yum update -y
           setenforce 0
           systemctl stop firewalld
@@ -88,6 +92,8 @@ Resources:
           postconf -e "inet_interfaces = all"
           postconf -e "mydestination = josephaws.one, email.josephaws.one, josephaws.com, email.josephaws.com, localhost"
           systemctl restart postfix
+          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2NotFromLaunchConfig --region ${AWS::Region}
+
 Outputs:
   URL:
     Description: Your EC2 DNS URL
