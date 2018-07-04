@@ -490,3 +490,11 @@ Resources:
         Value: EFS FileSystem Mounted Instance
         PropagateAtLaunch: 'true'
 Outputs:
+  MountTargetID:
+    Description: Mount target ID
+    Value:
+      Ref: MountTarget
+  FileSystemID:
+    Description: File system ID
+    Value:
+      Ref: FileSystem
