@@ -103,7 +103,7 @@ Resources:
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
-      # KeyName: Joseph-demo
+      KeyName: Joseph-demo
       ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       SecurityGroups:
         - !Ref Ec2SecurityGroup
