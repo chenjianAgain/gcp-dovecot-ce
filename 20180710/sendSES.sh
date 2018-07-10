@@ -1,5 +1,5 @@
 #!/bin/bash
-current=`date "+%Y-%m-%d %H:%M:%S"` 
+current=date -d '1 hour ago' "+%m/%d/%Y -%H:%M:%S" 
 aws ses send-email \
   --from "chenjian.aws@gmail.com" \
   --destination "ToAddresses=demo@josephaws.one" \
