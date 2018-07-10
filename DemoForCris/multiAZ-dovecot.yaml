@@ -104,10 +104,6 @@ Resources:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
       KeyName: Joseph-demo
-      Tags:
-        -
-          Key: "Name"
-          Value: "Dovecot b/e"
       ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       SecurityGroups:
         - !Ref Ec2SecurityGroup
