@@ -119,9 +119,9 @@ Resources:
           #!/bin/bash
           # sudo su -
           yum install -y mailx telnet mutt dovecot amazon-efs-utils
-          #yum update -y
-          #setenforce 0
-          #systemctl stop firewalld
+          # yum update -y
+          # setenforce 0
+          # systemctl stop firewalld
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
           mount -t efs fs-efbb24a7:/ $mnt_efs
