@@ -62,7 +62,7 @@ Resources:
         - 
           Key: "Name"
           Value:  !Sub
-            - "${StackName}-ec2"
+            - "${StackName}"
             - StackName: !Ref AWS::StackName
       ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
