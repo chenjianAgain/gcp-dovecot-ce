@@ -12,7 +12,7 @@ Parameters:
 Mappings:
   RegionMap:
     us-east-1:
-      "AMALINUX" : "ami-b70554c8" # AMALINUX 2 MAY 2018 
+      "AMALINUX" : "ami-6871a115" # AMALINUX 2 MAY 2018 
     us-east-2:
       "AMALINUX" : "ami-71ca9114" # AMALINUX SEP 2016
     us-west-1:
