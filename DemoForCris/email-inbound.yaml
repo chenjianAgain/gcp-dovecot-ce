@@ -52,6 +52,10 @@ Mappings:
 Resources:
   EC2NotFromLaunchConfig:
     Type: "AWS::EC2::Instance"
+    CreationPolicy:
+      ResourceSignal:
+        Count: "1"
+        Timeout: PT15M
     Properties:
       # KeyName: !Ref KeyName      
       NetworkInterfaces: 
@@ -70,7 +74,7 @@ Resources:
         "Fn::Base64":
           !Sub |
           #!/bin/bash
-          yum install -y mailx telnet mutt dovecot amazon-efs-utils
+          yum install -y mailx telnet mutt dovecot amazon-efs-utils aws-cfn-bootstrap 
           # yum update -y
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
@@ -87,7 +91,7 @@ Resources:
           postconf -e "inet_interfaces = all"
           postconf -e "mydestination = josephaws.one, email.josephaws.one, josephaws.com, email.josephaws.com, localhost"
           systemctl restart postfix
-          
+          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2AutoScalingGroup --region ${AWS::Region} 
 Outputs:
   URL:
     Description: Your EC2 DNS URL
