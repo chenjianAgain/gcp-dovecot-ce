@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: AWS EIP+EC2+Postfix+EFS Demo
+Description: EIP+EC2+Postfix+EFS Demo
 Parameters:
   EnvironmentSize:
     Type: String
@@ -87,6 +87,7 @@ Resources:
           postconf -e "inet_interfaces = all"
           postconf -e "mydestination = josephaws.one, email.josephaws.one, josephaws.com, email.josephaws.com, localhost"
           systemctl restart postfix
+          
 Outputs:
   URL:
     Description: Your EC2 DNS URL
