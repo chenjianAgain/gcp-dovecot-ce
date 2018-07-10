@@ -53,7 +53,7 @@ Resources:
   EC2NotFromLaunchConfig:
     Type: "AWS::EC2::Instance"
     Properties:
-      KeyName: !Ref KeyName      
+      KeyName: Joseph-demo     
       NetworkInterfaces: 
         - 
           NetworkInterfaceId: eni-c16830f8
