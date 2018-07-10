@@ -103,13 +103,13 @@ Resources:
       MaxSize: 3
       DesiredCapacity: 3
       HealthCheckGracePeriod: 300
-      CreationPolicy:
-        ResourceSignal:
-          Timeout: PT15M
       TargetGroupARNs:
         - !Ref publicNLBTargetGroupIMAP
         - !Ref publicNLBTargetGroupPOP3
         - !Ref publicNLBTargetGroupSMTP
+    CreationPolicy:
+      ResourceSignal:
+        Timeout: PT15M
       
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
