@@ -75,7 +75,7 @@ Resources:
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
           mount -t efs fs-efbb24a7:/ $mnt_efs
-          # useradd demo
+          useradd demo
           # echo "demo:demo1" | chpasswd
           # usermod -aG mail demo
           # sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
