@@ -61,7 +61,9 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "demo2"
+          Value:  !Sub
+            - "${StackName}-ec2"
+            - StackName: !Ref AWS::StackName
       ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
       UserData:
@@ -73,9 +75,9 @@ Resources:
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
           mount -t efs fs-efbb24a7:/ $mnt_efs
-          useradd demo
-          echo "demo:demo1" | chpasswd
-          usermod -aG mail demo
+          # useradd demo
+          # echo "demo:demo1" | chpasswd
+          # usermod -aG mail demo
           # sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
           # Change local storage to efs for dovecot
           # sed -i "\$amail_location = mbox:~/mail:INBOX=$mnt_efs/mail/%u" /etc/dovecot/conf.d/10-mail.conf
