@@ -126,7 +126,7 @@ Resources:
           !Sub |
           #!/bin/bash
           yum install -y mailx telnet mutt dovecot amazon-efs-utils aws-cfn-bootstrap 
-          yum update -y
+          # yum update -y
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
           mount -t efs fs-efbb24a7:/ $mnt_efs
