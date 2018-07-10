@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: AWS DefaultVPC+NLB+TargetGroup+ASG+LaunchConfig+Dovecot+EFS PoC Demo
+Description: AWS DefaultVPC+NLB+TargetGroup+ASG+LaunchConfig+Dovecot+Postfix+LinuxFileSystem PoC Demo
 Parameters:
   EnvironmentSize:
     Type: String
@@ -12,7 +12,7 @@ Parameters:
 Mappings:
   RegionMap:
     us-east-1:
-      "AMALINUX" : "ami-b70554c8" # AMALINUX 2 MAY 2018 
+      "AMALINUX" : "ami-afd15ed0" # AMALINUX 2 MAY 2018 
     us-east-2:
       "AMALINUX" : "ami-71ca9114" # AMALINUX SEP 2016
     us-west-1:
@@ -103,7 +103,7 @@ Resources:
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
-      KeyName: Joseph-demo
+      # KeyName: Joseph-demo
       ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       SecurityGroups:
         - !Ref Ec2SecurityGroup
@@ -128,6 +128,11 @@ Resources:
           # Change local storage to efs for dovecot
           sed -i "\$amail_location = mbox:~/mail:INBOX=$mnt_efs/mail/%u" /etc/dovecot/conf.d/10-mail.conf
           systemctl restart dovecot
+          # Change local storage to efs for postfix
+          postconf -e "mail_spool_directory = $mnt_efs/mail"
+          postconf -e "inet_interfaces = all"
+          postconf -e "mydestination = josephaws.one, email.josephaws.one, josephaws.com, email.josephaws.com, localhost"
+          systemctl restart postfix
           
   publicNLB:
     Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
