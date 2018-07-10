@@ -92,6 +92,13 @@ Resources:
       AvailabilityZones: 
         Fn::GetAZs: ""     
       LaunchConfigurationName: !Ref Ec2Instance
+      Tags:
+        - 
+          Key: Name
+          Value:  !Sub
+            - "${StackName}-ec2"
+            - StackName: !Ref AWS::StackName
+          PropagateAtLaunch: true
       MinSize: 3
       MaxSize: 3
       DesiredCapacity: 3
