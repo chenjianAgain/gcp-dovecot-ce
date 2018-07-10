@@ -73,6 +73,7 @@ Resources:
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
 
+
 Outputs:
   URL:
     Description: Your EC2 DNS URL
