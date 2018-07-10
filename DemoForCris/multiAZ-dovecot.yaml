@@ -103,10 +103,14 @@ Resources:
       MaxSize: 3
       DesiredCapacity: 3
       HealthCheckGracePeriod: 300
+      CreationPolicy:
+        ResourceSignal:
+          Timeout: PT15M
       TargetGroupARNs:
         - !Ref publicNLBTargetGroupIMAP
         - !Ref publicNLBTargetGroupPOP3
         - !Ref publicNLBTargetGroupSMTP
+      
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
@@ -121,7 +125,7 @@ Resources:
           !Sub |
           #!/bin/bash
           # sudo su -
-          yum install -y mailx telnet mutt dovecot amazon-efs-utils
+          yum install -y mailx telnet mutt dovecot amazon-efs-utils aws-cfn-bootstrap 
           # yum update -y
           # setenforce 0
           # systemctl stop firewalld
@@ -135,6 +139,7 @@ Resources:
           # Change local storage to efs for dovecot
           sed -i "\$amail_location = mbox:~/mail:INBOX=$mnt_efs/mail/%u" /etc/dovecot/conf.d/10-mail.conf
           systemctl restart dovecot
+          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2AutoScalingGroup --region ${AWS::Region} 
           
   publicNLB:
     Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
