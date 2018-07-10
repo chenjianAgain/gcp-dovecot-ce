@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: AWS DefaultVPC+NLB+TargetGroup+ASG+LaunchConfig+Dovecot+Postfix+LinuxFileSystem PoC Demo
+Description: AWS NLB+TargetGroup+ASG+LaunchConfig+Dovecot+EFS Demo
 Parameters:
   EnvironmentSize:
     Type: String
@@ -215,6 +215,7 @@ Resources:
       Port: 25
       Protocol: TCP
       VpcId: vpc-51496236
+      
 Outputs:
   URL:
     Description: Your NLB DNS URL
