@@ -70,8 +70,6 @@ Resources:
           #!/bin/bash
           yum install -y mailx telnet mutt dovecot amazon-efs-utils
           yum update -y
-          setenforce 0
-          systemctl stop firewalld
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
 
