@@ -69,7 +69,7 @@ Resources:
           !Sub |
           #!/bin/bash
           yum install -y mailx telnet mutt dovecot amazon-efs-utils
-          yum update -y
+          # yum update -y
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
 
