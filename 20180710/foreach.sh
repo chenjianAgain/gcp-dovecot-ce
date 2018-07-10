@@ -5,5 +5,5 @@ do
     echo "Welcome $i times"
     current=`date "+%Y-%m-%d %H:%M:%S"` 
     # echo "hello-$i at $current" | mail -s "test$i-$current" demo@localhost.
-    ./sendSES.sh $i
+    ./sendSES.sh $current
 done
