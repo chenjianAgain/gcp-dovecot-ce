@@ -12,7 +12,7 @@ Parameters:
 Mappings:
   RegionMap:
     us-east-1:
-      "AMALINUX" : "ami-b70554c8" # AMALINUX 2 MAY 2018 
+      "AMALINUX" : "ami-afd15ed0" # AMALINUX 2 MAY 2018 
     us-east-2:
       "AMALINUX" : "ami-71ca9114" # AMALINUX SEP 2016
     us-west-1:
@@ -53,7 +53,7 @@ Resources:
   EC2NotFromLaunchConfig:
     Type: "AWS::EC2::Instance"
     Properties:
-      KeyName: Joseph-demo     
+      # KeyName: !Ref KeyName      
       NetworkInterfaces: 
         - 
           NetworkInterfaceId: eni-c16830f8
@@ -61,7 +61,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "demo-inbound"
+          Value: "demo2"
       ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
       UserData:
@@ -69,7 +69,7 @@ Resources:
           !Sub |
           #!/bin/bash
           yum install -y mailx telnet mutt dovecot amazon-efs-utils
-          # yum update -y
+          yum update -y
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
           mount -t efs fs-efbb24a7:/ $mnt_efs
@@ -85,8 +85,6 @@ Resources:
           postconf -e "inet_interfaces = all"
           postconf -e "mydestination = josephaws.one, email.josephaws.one, josephaws.com, email.josephaws.com, localhost"
           systemctl restart postfix
-
-
 Outputs:
   URL:
     Description: Your EC2 DNS URL
