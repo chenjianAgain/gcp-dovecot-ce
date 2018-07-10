@@ -69,17 +69,17 @@ Resources:
           !Sub |
           #!/bin/bash
           yum install -y mailx telnet mutt dovecot amazon-efs-utils
-          yum update -y
+          # yum update -y
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
           mount -t efs fs-efbb24a7:/ $mnt_efs
           useradd demo
           echo "demo:demo1" | chpasswd
           usermod -aG mail demo
-          sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
+          # sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
           # Change local storage to efs for dovecot
-          sed -i "\$amail_location = mbox:~/mail:INBOX=$mnt_efs/mail/%u" /etc/dovecot/conf.d/10-mail.conf
-          systemctl restart dovecot
+          # sed -i "\$amail_location = mbox:~/mail:INBOX=$mnt_efs/mail/%u" /etc/dovecot/conf.d/10-mail.conf
+          # systemctl restart dovecot
           # Change local storage to efs for postfix
           postconf -e "mail_spool_directory = $mnt_efs/mail"
           postconf -e "inet_interfaces = all"
