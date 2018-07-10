@@ -100,7 +100,7 @@ Resources:
         - 
           Key: Name
           Value:  !Sub
-            - "${StackName}-ec2"
+            - "${StackName}"
             - StackName: !Ref AWS::StackName
           PropagateAtLaunch: true
       MinSize: 3
