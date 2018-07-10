@@ -61,7 +61,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "demo2"
+          Value: "demo-inbound"
       ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
       UserData:
