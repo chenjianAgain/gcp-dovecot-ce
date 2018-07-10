@@ -88,6 +88,10 @@ Resources:
       CidrIp: 0.0.0.0/0
   EC2AutoScalingGroup:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
+    CreationPolicy:
+      ResourceSignal:
+        Count: "1"
+        Timeout: PT15M
     Properties:
       AvailabilityZones: 
         Fn::GetAZs: ""     
@@ -107,9 +111,6 @@ Resources:
         - !Ref publicNLBTargetGroupIMAP
         - !Ref publicNLBTargetGroupPOP3
         - !Ref publicNLBTargetGroupSMTP
-    CreationPolicy:
-      ResourceSignal:
-        Timeout: PT15M
       
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
