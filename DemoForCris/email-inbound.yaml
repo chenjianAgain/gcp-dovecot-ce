@@ -91,7 +91,7 @@ Resources:
           postconf -e "inet_interfaces = all"
           postconf -e "mydestination = josephaws.one, email.josephaws.one, josephaws.com, email.josephaws.com, localhost"
           systemctl restart postfix
-          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2AutoScalingGroup --region ${AWS::Region} 
+          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2NotFromLaunchConfig --region ${AWS::Region} 
 Outputs:
   URL:
     Description: Your EC2 DNS URL
