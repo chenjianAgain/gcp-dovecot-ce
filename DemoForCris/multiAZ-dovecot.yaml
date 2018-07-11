@@ -125,7 +125,7 @@ Resources:
         "Fn::Base64":
           !Sub |
           #!/bin/bash
-          yum update -y
+          # yum update -y
           yum install -y mailx telnet mutt dovecot amazon-efs-utils aws-cfn-bootstrap 
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
