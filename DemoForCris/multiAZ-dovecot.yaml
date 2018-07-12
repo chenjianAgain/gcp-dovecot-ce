@@ -137,7 +137,7 @@ Resources:
     Type: 'AWS::AutoScaling::AutoScalingGroup'
     CreationPolicy:
       ResourceSignal:
-        Count: "1"
+        # Count: "1"
         Timeout: PT15M
     Properties:
       AvailabilityZones: 
