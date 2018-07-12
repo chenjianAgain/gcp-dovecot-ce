@@ -150,9 +150,9 @@ Resources:
             - "${StackName}"
             - StackName: !Ref AWS::StackName
           PropagateAtLaunch: true
-      MinSize: 3
-      MaxSize: 3
-      DesiredCapacity: 3
+      MinSize: 0
+      MaxSize: 1
+      DesiredCapacity: 1
       HealthCheckGracePeriod: 300
       TargetGroupARNs:
         - !Ref publicNLBTargetGroupIMAP
