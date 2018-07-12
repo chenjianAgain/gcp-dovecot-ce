@@ -140,8 +140,11 @@ Resources:
         # Count: "1"
         Timeout: PT15M
     Properties:
-      AvailabilityZones: 
-        Fn::GetAZs: ""     
+      AvailabilityZones:
+        - us-east-1b
+        - us-east-1c
+        - us-east-1f
+        # Fn::GetAZs: ""     
       LaunchConfigurationName: !Ref Ec2Instance
       Tags:
         - 
