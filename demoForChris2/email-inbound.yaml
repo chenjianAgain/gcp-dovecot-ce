@@ -1,0 +1,100 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: EIP+EC2+Postfix+EFS Demo
+Parameters:
+  EnvironmentSize:
+    Type: String
+    Default: SMALL
+    AllowedValues:
+      - SMALL
+      - MEDIUM
+      - LARGE
+    Description: Select Environment Size (S,M,L)
+Mappings:
+  RegionMap:
+    us-east-1:
+      "AMALINUX" : "ami-afd15ed0" # AMALINUX 2 MAY 2018 
+    us-east-2:
+      "AMALINUX" : "ami-71ca9114" # AMALINUX SEP 2016
+    us-west-1:
+      "AMALINUX" : "ami-de347abe" # AMALINUX SEP 2016
+    us-west-2:
+      "AMALINUX" : "ami-b04e92d0" # AMALINUX SEP 2016
+    ca-central-1:
+      "AMALINUX" : "ami-c59818a1" # AMALINUX 2 May 2018 
+    eu-west-1:
+      "AMALINUX" : "ami-d41d58a7" # AMALINUX SEP 2016
+    eu-central-1:
+      "AMALINUX" : "ami-0044b96f" # AMALINUX SEP 2016
+    eu-west-2:
+      "AMALINUX" : "ami-bfe0eadb" # AMALINUX SEP 2016 v01
+    ap-southeast-1:
+      "AMALINUX" : "ami-7243e611" # AMALINUX SEP 2016
+    ap-southeast-2:
+      "AMALINUX" : "ami-55d4e436" # AMALINUX SEP 2016
+    ap-northeast-2:
+      "AMALINUX" : "ami-a04297ce" # AMALINUX SEP 2016
+    ap-northeast-1:
+      "AMALINUX" : "ami-1a15c77b" # AMALINUX SEP 2016
+    ap-south-1:
+      "AMALINUX" : "ami-cacbbea5" # AMALINUX SEP 2016
+    sa-east-1:
+      "AMALINUX" : "ami-b777e4db" # AMALINUX SEP 2016
+  InstanceSize:
+    SMALL:
+      "EC2" : "t2.micro"
+      "DB" : "db.t2.micro"
+    MEDIUM:
+      "EC2" : "t2.small"
+      "DB" : "db.t2.small"
+    LARGE:
+      "EC2" : "t2.medium"
+      "DB" : "db.t2.medium"
+Resources:
+  EC2NotFromLaunchConfig:
+    Type: "AWS::EC2::Instance"
+    CreationPolicy:
+      ResourceSignal:
+        Count: "1"
+        Timeout: PT15M
+    Properties:
+      # KeyName: !Ref KeyName      
+      NetworkInterfaces: 
+        - 
+          NetworkInterfaceId: eni-c16830f8
+          DeviceIndex: 0 
+      Tags: 
+        - 
+          Key: "Name"
+          Value:  !Sub
+            - "${StackName}"
+            - StackName: !Ref AWS::StackName
+      ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
+      InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
+      UserData:
+        "Fn::Base64":
+          !Sub |
+          #!/bin/bash
+          yum install -y mailx telnet mutt dovecot amazon-efs-utils aws-cfn-bootstrap 
+          # yum update -y
+          mnt_efs=/mnt/efs
+          mkdir -p $mnt_efs
+          mount -t efs fs-efbb24a7:/ $mnt_efs
+          useradd demo
+          # echo "demo:demo1" | chpasswd
+          # usermod -aG mail demo
+          # sed -i '$adisable_plaintext_auth = no' /etc/dovecot/conf.d/10-auth.conf
+          # Change local storage to efs for dovecot
+          # sed -i "\$amail_location = mbox:~/mail:INBOX=$mnt_efs/mail/%u" /etc/dovecot/conf.d/10-mail.conf
+          # systemctl restart dovecot
+          # Change local storage to efs for postfix
+          postconf -e "mail_spool_directory = $mnt_efs/mail"
+          postconf -e "inet_interfaces = all"
+          postconf -e "mydestination = josephaws.one, email.josephaws.one, josephaws.com, email.josephaws.com, localhost"
+          systemctl restart postfix
+          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2NotFromLaunchConfig --region ${AWS::Region} 
+Outputs:
+  URL:
+    Description: Your EC2 DNS URL
+    Value: !Sub 
+      - 'mutt -f imap://demo@${DNSName}'
+      -  DNSName: !GetAtt EC2NotFromLaunchConfig.PublicDnsName
