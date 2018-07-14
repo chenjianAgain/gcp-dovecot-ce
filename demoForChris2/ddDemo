@@ -1,6 +1,7 @@
 
+AWSTemplateFormatVersion: 2010-09-09
+Description: EC2+Dovecot Director
 Resources:
-      
   Ec2Instance:
     Type: 'AWS::EC2::Instance'
     Properties:
