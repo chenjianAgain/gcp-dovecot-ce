@@ -188,7 +188,9 @@ Resources:
           sed -i "\$amail_location = mbox:~/mail:INBOX=$mnt_efs/mail/%u" /etc/dovecot/conf.d/10-mail.conf
           systemctl restart dovecot
           # call API to inform self IP address
-          curl -X POST https://xxjs4ximt4.execute-api.us-east-1.amazonaws.com/dev/todos --data '{ "text": "1.1.1.1" }'
+          export DOMAIN=`curl -s http://169.254.169.254/latest/meta-data/public-hostname`
+          jsonData={ "text": "$DOMAIN" }
+          curl -X POST https://xxjs4ximt4.execute-api.us-east-1.amazonaws.com/dev/todos --data $jsonData
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2AutoScalingGroup --region ${AWS::Region} 
   
 #######################
