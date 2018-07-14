@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: NLB+TargetGroup+ASG+LaunchConfig+Dovecot+EFS Demo
+Description: ASG+Dovecot backend+EFS
 Parameters:
   EnvironmentSize:
     Type: String
@@ -157,10 +157,6 @@ Resources:
       MaxSize: 1
       DesiredCapacity: 1
       HealthCheckGracePeriod: 300
-      TargetGroupARNs:
-        - !Ref publicNLBTargetGroupIMAP
-        - !Ref publicNLBTargetGroupPOP3
-        - !Ref publicNLBTargetGroupSMTP
       
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
@@ -170,9 +166,9 @@ Resources:
       SecurityGroups:
         - !Ref Ec2SecurityGroup
         - default
-      SpotPrice: !Ref SpotPrice
-      InstanceType: !Ref SpotInstanceType
-      # InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
+      # SpotPrice: !Ref SpotPrice
+      # InstanceType: !Ref SpotInstanceType
+      InstanceType: !FindInMap [InstanceSize, !Ref EnvironmentSize, EC2]
       UserData:
         "Fn::Base64":
           !Sub |
@@ -192,85 +188,7 @@ Resources:
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2AutoScalingGroup --region ${AWS::Region} 
   
 #######################
-#   NLB
+#   No need NLB
 #######################  
 
-  publicNLB:
-    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
-    Properties:
-      Type: network
-      Scheme: internet-facing
-      Subnets:
-        - subnet-233dc278
-        - subnet-e91898e5
-        - subnet-6a31540f
-        
-  
-  NLBListenerIMAP:
-    Type: 'AWS::ElasticLoadBalancingV2::Listener'
-    Properties:
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref publicNLBTargetGroupIMAP
-      LoadBalancerArn: 
-        Ref: publicNLB
-      Port: 143
-      Protocol: TCP
-  NLBListenerPOP3:
-    Type: 'AWS::ElasticLoadBalancingV2::Listener'
-    Properties:
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref publicNLBTargetGroupPOP3
-      LoadBalancerArn: 
-        Ref: publicNLB
-      Port: 110
-      Protocol: TCP
-  NLBListenerSMTP:
-    Type: 'AWS::ElasticLoadBalancingV2::Listener'
-    Properties:
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref publicNLBTargetGroupSMTP
-      LoadBalancerArn: 
-        Ref: publicNLB
-      Port: 25
-      Protocol: TCP
 
-  publicNLBTargetGroupIMAP:
-    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
-    Properties:
-      HealthCheckIntervalSeconds: 10
-      HealthCheckProtocol: TCP
-      HealthyThresholdCount: 2
-      UnhealthyThresholdCount: 2
-      Port: 143
-      Protocol: TCP
-      VpcId: vpc-51496236
-  publicNLBTargetGroupPOP3:
-    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
-    Properties:
-      HealthCheckIntervalSeconds: 10
-      HealthCheckProtocol: TCP
-      HealthyThresholdCount: 2
-      UnhealthyThresholdCount: 2
-      Port: 110
-      Protocol: TCP
-      VpcId: vpc-51496236
-  publicNLBTargetGroupSMTP:
-    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
-    Properties:
-      HealthCheckIntervalSeconds: 10
-      HealthCheckProtocol: TCP
-      HealthyThresholdCount: 2
-      UnhealthyThresholdCount: 2
-      Port: 25
-      Protocol: TCP
-      VpcId: vpc-51496236
-      
-Outputs:
-  URL:
-    Description: Your NLB DNS URL
-    Value: !Sub 
-      - 'mutt -f imap://demo@${DNSName}'
-      -  DNSName: !GetAtt publicNLB.DNSName
