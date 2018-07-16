@@ -10,7 +10,7 @@ Resources:
         - 
           Key: Name
           Value:  !Sub
-            - "${StackName}"
+            - "${StackName}-director"
             - StackName: !Ref AWS::StackName
       ImageId: ami-b70554c8
       SecurityGroups:
