@@ -153,7 +153,7 @@ Resources:
         - 
           Key: Name
           Value:  !Sub
-            - "${StackName}"
+            - "${StackName}-b/e"
             - StackName: !Ref AWS::StackName
           PropagateAtLaunch: true
       MinSize: 2
