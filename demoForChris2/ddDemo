@@ -6,6 +6,12 @@ Resources:
     Type: 'AWS::EC2::Instance'
     Properties:
       KeyName: Joseph-demo
+      Tags:
+        - 
+          Key: Name
+          Value:  !Sub
+            - "${StackName}"
+            - StackName: !Ref AWS::StackName
       ImageId: ami-b70554c8
       SecurityGroups:
         - all-traffic-allowed
