@@ -21,6 +21,7 @@ Resources:
           !Sub |
           #!/bin/bash
           yum install -y httpd elinks
+          yum groups install -y "Directory Client"
           echo "hello world" >> /var/www/html/index.html
           systemctl restart httpd
 Outputs:
