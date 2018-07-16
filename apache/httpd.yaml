@@ -11,7 +11,7 @@ Resources:
           Value:  !Sub
             - "${StackName}-director"
             - StackName: !Ref AWS::StackName
-      ImageId: ami-b70554c8
+      ImageId: ami-6871a115
       SecurityGroups:
         - all-traffic-allowed
         - default
