@@ -4,10 +4,10 @@ Resources:
     Properties:
       ImageId: ami-b70554c8
       KeyName: Joseph-demo
-      NetworkInterfaces: 
-        - 
-          NetworkInterfaceId: eni-b4e5cbd0
-          DeviceIndex: 0 
+      # NetworkInterfaces: 
+        # - 
+          # NetworkInterfaceId: eni-b4e5cbd0
+          # DeviceIndex: 0 
       Tags:
         -
           Key: Name
