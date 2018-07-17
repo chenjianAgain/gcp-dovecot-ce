@@ -9,7 +9,7 @@ Resources:
         - 
           Key: Name
           Value:  !Sub
-            - "${StackName}-director"
+            - "${StackName}-test"
             - StackName: !Ref AWS::StackName
       ImageId: ami-6871a115
       SecurityGroups:
