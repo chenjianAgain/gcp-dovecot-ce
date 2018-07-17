@@ -14,7 +14,9 @@ Resources:
       Tags:
         -
           Key: Name
-          Value: Test Instance
+          Value: !Sub
+            - "${StackName}-demo"
+            - StackName: !Ref AWS::StackName
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
