@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: httpd test
+Resources:
+  Ec2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      KeyName: Joseph-demo
+      Tags:
+        - 
+          Key: Name
+          Value:  !Sub
+            - "${StackName}-test"
+            - StackName: !Ref AWS::StackName
+      ImageId: ami-6871a115
+      SecurityGroups:
+        - all-traffic-allowed
+        - default
+      InstanceType: t2.micro
+      UserData:
+        "Fn::Base64":
+          !Sub |
+          #!/bin/bash
+          yum install -y httpd elinks freeipa-client
+          yum groups install -y "Directory Client"
+          echo "hello world" >> /var/www/html/index.html
+          systemctl restart httpd
+Outputs:
+  URL:
+    Description: Your EC2 DNS URL
+    Value: !Sub 
+      -  http://${DNSName}
+      -  DNSName: !GetAtt Ec2Instance.PublicDnsName
