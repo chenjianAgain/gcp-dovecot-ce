@@ -4,6 +4,7 @@ Resources:
     Properties:
       ImageId: ami-b70554c8
       KeyName: Joseph-demo
+      InstanceType: t2.micro
       SecurityGroups: 
         - all-traffic-allowed
       # NetworkInterfaces: 
