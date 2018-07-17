@@ -20,7 +20,7 @@ Resources:
         "Fn::Base64":
           !Sub |
           #!/bin/bash
-          yum install -y httpd elinks
+          yum install -y httpd elinks freeipa-client
           yum groups install -y "Directory Client"
           echo "hello world" >> /var/www/html/index.html
           systemctl restart httpd
