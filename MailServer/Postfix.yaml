@@ -27,6 +27,7 @@ Resources:
           yum install httpd ntp -y
           echo hello >> /var/www/html/index.html
           systemctl restart httpd
+          systemctl restart ntpd && systemctl enable ntpd
           
           PRIVATEIP=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
           echo "$PRIVATEIP ipa.example.com" >> /etc/hosts
