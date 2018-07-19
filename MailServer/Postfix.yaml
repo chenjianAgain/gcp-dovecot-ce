@@ -28,13 +28,13 @@ Resources:
           systemctl restart ntpd && systemctl enable ntpd
           
           PRIVATEIP=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
-          echo "$PRIVATEIP a.josephaws.com" >> /etc/hosts
-          hostnamectl set-hostname a.josephaws.com
+          echo "$PRIVATEIP postfix.josephaws.com" >> /etc/hosts
+          hostnamectl set-hostname postfix.josephaws.com
           
           postconf -e "inet_interfaces = all"
-          postconf -e 'myhostname = a.josephaws.com'
+          postconf -e 'myhostname = postfix.josephaws.com'
           postconf -e 'mydomain = josephaws.com'
-          postconf -e "mydestination = josephaws.one, a.josephaws.one, josephaws.com, a.josephaws.com, localhost"
+          postconf -e "mydestination = josephaws.one, postfix.josephaws.one, josephaws.com, postfix.josephaws.com, localhost"
           systemctl restart postfix && systemctl enable postfix
           
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource Ec2Instance --region ${AWS::Region} 
