@@ -1,0 +1,40 @@
+Resources:
+  Ec2Instance:
+    Type: AWS::EC2::Instance
+    CreationPolicy:
+      ResourceSignal:
+        # Count: "1"
+        Timeout: PT15M
+    Properties:
+      ImageId: ami-6871a115
+      KeyName: Joseph-demo
+      InstanceType: t2.micro
+      SecurityGroups: 
+        - all-traffic-allowed
+      # NetworkInterfaces: 
+        # - 
+          # NetworkInterfaceId: eni-b4e5cbd0
+          # DeviceIndex: 0 
+      Tags:
+        -
+          Key: Name
+          Value: !Sub
+            - "${StackName}-demo"
+            - StackName: !Ref AWS::StackName
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          yum install httpd ntpd -y
+          echo hello >> /var/www/html/index.html
+          systemctl restart httpd
+          
+          PRIVATEIP=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
+          echo "$PRIVATEIP ipa.example.com" >> /etc/hosts
+          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource Ec2Instance --region ${AWS::Region} 
+
+Outputs:
+  URL:
+    Description: Your EC2 DNS URL
+    Value: !Sub 
+      - '${DNSName}'
+      -  DNSName: !GetAtt Ec2Instance.PublicDnsName
