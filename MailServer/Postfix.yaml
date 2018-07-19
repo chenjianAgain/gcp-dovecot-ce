@@ -31,6 +31,7 @@ Resources:
           
           PRIVATEIP=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
           echo "$PRIVATEIP a.josephaws.com" >> /etc/hosts
+          hostnamectl set-hostname a.josephaws.com
           
           postconf -e "inet_interfaces = all"
           postconf -e 'myhostname = a.josephaws.com'
