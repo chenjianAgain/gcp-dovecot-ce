@@ -31,11 +31,8 @@ Resources:
           echo "$PRIVATEIP postfix.josephaws.com" >> /etc/hosts
           hostnamectl set-hostname postfix.josephaws.com
           
-          postconf -e "inet_interfaces = all"
-          postconf -e 'myhostname = postfix.josephaws.com'
-          postconf -e 'mydomain = josephaws.com'
-          postconf -e "mydestination = josephaws.one, postfix.josephaws.one, josephaws.com, postfix.josephaws.com, localhost"
-          
+
+          # Replace postfix config file and restart
           wget https://github.com/chenjianAgain/gcp-dovecot-ce/raw/master/MailServer/useDovecot.txt
           cat useDovecot.txt >> /etc/postfix/main.cf
           systemctl restart postfix && systemctl enable postfix
