@@ -1,6 +1,10 @@
 Resources:
   Ec2Instance:
     Type: AWS::EC2::Instance
+    CreationPolicy:
+      ResourceSignal:
+        # Count: "1"
+        Timeout: PT15M
     Properties:
       ImageId: ami-b70554c8
       KeyName: Joseph-demo
@@ -26,6 +30,8 @@ Resources:
           
           PRIVATEIP=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
           echo "$PRIVATEIP ipa.example.com" >> /etc/hosts
+          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource Ec2Instance --region ${AWS::Region} 
+
 Outputs:
   URL:
     Description: Your EC2 DNS URL
