@@ -6,7 +6,7 @@ Resources:
         # Count: "1"
         Timeout: PT15M
     Properties:
-      ImageId: ami-6871a115
+      ImageId: ami-c4596fbb
       KeyName: Joseph-demo
       InstanceType: t2.micro
       SecurityGroups: 
