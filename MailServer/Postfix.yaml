@@ -40,6 +40,8 @@ Resources:
           cat useDovecot.txt >> /etc/postfix/main.cf
           systemctl restart postfix && systemctl enable postfix
           
+          useradd demo && echo "demo:demo1" | chpasswd
+          
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource Ec2Instance --region ${AWS::Region} 
 
 Outputs:
