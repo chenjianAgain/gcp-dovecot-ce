@@ -181,7 +181,8 @@ Resources:
           yum install -y mailx telnet mutt dovecot amazon-efs-utils aws-cfn-bootstrap 
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
-          mount -t efs fs-efbb24a7:/ $mnt_efs
+          # mount -t efs fs-efbb24a7:/ $mnt_efs
+          mount -t efs fs-aff3dfe7:/ $mnt_efs 
           # useradd ken
           useradd demo
           echo "demo:demo1" | chpasswd
