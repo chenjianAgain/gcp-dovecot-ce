@@ -51,6 +51,7 @@ Resources:
           useradd -u 2104 jason -p abc123
           useradd -u 2105 peter -p abc123
           
+          # Signal back to cfn engine
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource Ec2Instance --region ${AWS::Region} 
 
 Outputs:
