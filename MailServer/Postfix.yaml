@@ -27,12 +27,18 @@ Resources:
           yum install -y ntp dovecot mariadb-server dovecot-mysql mailx
           systemctl restart ntpd && systemctl enable ntpd
           
+          # Set hostname
           PRIVATEIP=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
           echo "$PRIVATEIP postfix.josephaws.com" >> /etc/hosts
           hostnamectl set-hostname postfix.josephaws.com
           
 
           # Replace postfix config file and restart
+          postconf -e "inet_interfaces = all"
+          postconf -e 'myhostname = postfix.josephaws.com'
+          postconf -e 'mydomain = josephaws.com'
+          postconf -e "mydestination = josephaws.one, postfix.josephaws.one, josephaws.com, postfix.josephaws.com, localhost"
+
           wget https://github.com/chenjianAgain/gcp-dovecot-ce/raw/master/MailServer/useDovecot.txt
           cat useDovecot.txt >> /etc/postfix/main.cf
           systemctl restart postfix && systemctl enable postfix
