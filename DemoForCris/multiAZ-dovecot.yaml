@@ -182,7 +182,7 @@ Resources:
           mnt_efs=/mnt/efs
           mkdir -p $mnt_efs
           mount -t efs fs-efbb24a7:/ $mnt_efs
-          useradd ken
+          # useradd ken
           useradd demo
           echo "demo:demo1" | chpasswd
           usermod -aG mail demo
