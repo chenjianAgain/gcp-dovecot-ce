@@ -137,4 +137,4 @@ Resources:
             02_change_mail_location:
               cwd: "/etc/dovecot/conf.d"
               command: !Sub |
-                echo 'mail_location = mbox:~/mail:INBOX=/var/mail/%u' >> 10-mail.conf
+                # echo 'mail_location = mbox:~/mail:INBOX=/var/mail/%u' >> 10-mail.conf
