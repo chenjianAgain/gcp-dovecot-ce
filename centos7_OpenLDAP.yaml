@@ -70,9 +70,11 @@ Resources:
         "Fn::Base64":
           !Sub |
           #!/bin/bash
-          yum install -y mailx telnet mutt dovecot aws-cfn-bootstrap 
+          yum install -y mailx telnet mutt dovecot aws-cfn-bootstrap ntp
           # yum update -y
-
+          systemctl restart ntpd
+          systemctl enable ntpd
+          hostnamectl set-hostname email.josephaws.com
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2NotFromLaunchConfig --region ${AWS::Region} 
 Outputs:
   URL:
