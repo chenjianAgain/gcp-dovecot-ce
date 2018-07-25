@@ -1,0 +1,8 @@
+[base]
+name=CentOS-$releasever - Base
+exclude=postfix
+
+#released updates
+[updates]
+name=CentOS-$releasever - Updates
+exclude=postfix
