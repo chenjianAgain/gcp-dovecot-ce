@@ -110,10 +110,10 @@ mail_owner = postfix
 #
 # Note: you need to stop/start Postfix when this parameter changes.
 #
-#inet_interfaces = all
+inet_interfaces = all
 #inet_interfaces = $myhostname
 #inet_interfaces = $myhostname, localhost
-inet_interfaces = localhost
+#inet_interfaces = localhost
 
 # Enable IPv4, and IPv6 if supported
 inet_protocols = all
@@ -161,8 +161,8 @@ inet_protocols = all
 #
 # See also below, section "REJECTING MAIL FOR UNKNOWN LOCAL USERS".
 #
-mydestination = $myhostname, localhost.$mydomain, localhost
-#mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+#mydestination = $myhostname, localhost.$mydomain, localhost
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain,
 #	mail.$mydomain, www.$mydomain, ftp.$mydomain
 
@@ -416,7 +416,7 @@ alias_database = hash:/etc/aliases
 # "Maildir/" for qmail-style delivery (the / is required).
 #
 #home_mailbox = Mailbox
-#home_mailbox = Maildir/
+home_mailbox = Maildir/
  
 # The mail_spool_directory parameter specifies the directory where
 # UNIX-style mailboxes are kept. The default setting depends on the
@@ -569,7 +569,7 @@ alias_database = hash:/etc/aliases
 # You MUST specify $myhostname at the start of the text. That is an
 # RFC requirement. Postfix itself does not care.
 #
-#smtpd_banner = $myhostname ESMTP $mail_name
+smtpd_banner = $myhostname ESMTP $mail_name
 #smtpd_banner = $myhostname ESMTP $mail_name ($mail_version)
 
 # PARALLEL DELIVERY TO THE SAME DESTINATION
@@ -677,3 +677,15 @@ sample_directory = /usr/share/doc/postfix-2.10.1/samples
 # readme_directory: The location of the Postfix README files.
 #
 readme_directory = /usr/share/doc/postfix-2.10.1/README_FILES
+
+myhostname = email.josephaws.com
+mydomain = pjosephaws.com
+myorigin = $mydomain
+
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
+broken_sasl_auth_clients = yes
+smtpd_sasl_local_domain = $myhostname
+smtpd_recipient_restrictions = permit_mynetworks,permit_auth_destination,permit_sasl_authenticated,reject
