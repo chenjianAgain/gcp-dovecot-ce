@@ -76,7 +76,6 @@ Resources:
           systemctl enable ntpd
           hostnamectl set-hostname email.josephaws.com
           cd /etc/yum.repos.d && wget https://github.com/chenjianAgain/gcp-dovecot-ce/raw/master/centos7/CentOS-Base.repo
-          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2NotFromLaunchConfig --region ${AWS::Region} 
 Outputs:
   URL:
     Description: Your EC2 DNS URL
