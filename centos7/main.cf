@@ -679,7 +679,7 @@ sample_directory = /usr/share/doc/postfix-2.10.1/samples
 readme_directory = /usr/share/doc/postfix-2.10.1/README_FILES
 
 myhostname = email.josephaws.com
-mydomain = pjosephaws.com
+mydomain = josephaws.com
 myorigin = $mydomain
 
 smtpd_sasl_type = dovecot
