@@ -54,6 +54,8 @@ Resources:
     Type: "AWS::EC2::Instance"
     Properties:
       KeyName: Joseph-demo     
+      SecurityGroups:
+        - all-traffic-allowed
       Tags: 
         - 
           Key: "Name"
