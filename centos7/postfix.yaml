@@ -72,8 +72,8 @@ Resources:
           #!/bin/bash
           # yum install -y mailx telnet mutt dovecot aws-cfn-bootstrap ntp
           # yum update -y
-          systemctl restart ntpd
-          systemctl enable ntpd
+          # systemctl restart ntpd
+          # systemctl enable ntpd
           hostnamectl set-hostname email.josephaws.com
           cd /etc/yum.repos.d && wget https://github.com/chenjianAgain/gcp-dovecot-ce/raw/master/centos7/CentOS-Base.repo
 Outputs:
