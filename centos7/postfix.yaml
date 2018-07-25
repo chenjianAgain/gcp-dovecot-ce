@@ -52,10 +52,6 @@ Mappings:
 Resources:
   EC2NotFromLaunchConfig:
     Type: "AWS::EC2::Instance"
-    CreationPolicy:
-      ResourceSignal:
-        Count: "1"
-        Timeout: PT15M
     Properties:
       KeyName: Joseph-demo     
       Tags: 
