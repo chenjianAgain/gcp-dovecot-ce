@@ -38,7 +38,7 @@ Mappings:
     ap-south-1:
       "AMALINUX" : "ami-cacbbea5" # AMALINUX SEP 2016
     sa-east-1:
-      "AMALINUX" : "ami-b777e4db" # AMALINUX SEP 2016
+      "AMALINUX" : "ami-0160a8b6087883cb6" # AMALINUX SEP 2016
   InstanceSize:
     SMALL:
       "EC2" : "t2.micro"
@@ -151,9 +151,9 @@ Resources:
       VPCZoneIdentifier: 
         - !Ref PublicSubnet
       LaunchConfigurationName: !Ref Ec2Instance
-      MinSize: 3
-      MaxSize: 3
-      DesiredCapacity: 3
+      MinSize: 1
+      MaxSize: 1
+      DesiredCapacity: 1
       HealthCheckGracePeriod: 300
       TargetGroupARNs:
         - !Ref publicNLBTargetGroupIMAP
@@ -178,7 +178,7 @@ Resources:
   Ec2Instance:
     Type: 'AWS::AutoScaling::LaunchConfiguration'
     Properties:
-      # KeyName: Joseph-demo
+      KeyName: SecondKey
       ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMALINUX] #/ Amazon Linux
       SecurityGroups:
         - !Ref Ec2SecurityGroup
