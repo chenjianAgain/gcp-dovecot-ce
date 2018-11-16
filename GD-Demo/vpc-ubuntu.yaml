@@ -3,7 +3,7 @@ Description: AWS CustomizedVPC+NLB+TargetGroup+ASG+LaunchConfig+Dovecot+Postfix+
 Parameters:
   EnvironmentSize:
     Type: String
-    Default: SMALL
+    Default: LARGE
     AllowedValues:
       - SMALL
       - MEDIUM
@@ -47,7 +47,7 @@ Mappings:
       "EC2" : "t2.small"
       "DB" : "db.t2.small"
     LARGE:
-      "EC2" : "t2.medium"
+      "EC2" : "t2.xlarge"
       "DB" : "db.t2.medium"
 Resources:
   PublicSubnet:
