@@ -38,7 +38,7 @@ Mappings:
     ap-south-1:
       "AMALINUX" : "ami-cacbbea5" # AMALINUX SEP 2016
     sa-east-1:
-      "AMALINUX" : "ami-0160a8b6087883cb6" # AMALINUX SEP 2016
+      "AMALINUX" : "ami-03c6239555bb12112" # ubuntu 2018 11 15
   InstanceSize:
     SMALL:
       "EC2" : "t2.micro"
