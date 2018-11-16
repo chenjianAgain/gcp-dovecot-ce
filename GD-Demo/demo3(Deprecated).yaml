@@ -87,7 +87,7 @@ Resources:
       Tags: 
         - 
           Key: "Name"
-          Value: "Joseph-Demo-20180621"
+          Value: "Joseph-Demo-20181116"
       VpcId: !Ref VPC
   PublicRoute:
     Type: 'AWS::EC2::Route'
