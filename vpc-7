@@ -42,6 +42,20 @@ Resources:
             - "${StackName}-PublicSubnet1"
             - StackName: !Ref AWS::StackName
 
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: !Select 
+        - '1'
+        - !GetAZs ''
+      Tags:
+        - Key: Name
+          Value: !Sub
+            - "${StackName}-PublicSubnet2"
+            - StackName: !Ref AWS::StackName
+
   PrivateSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
@@ -60,7 +74,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
-      CidrBlock: 10.0.2.0/24
+      CidrBlock: 10.0.3.0/24
       AvailabilityZone: !Select 
         - '1'
         - !GetAZs ''
@@ -93,6 +107,12 @@ Resources:
       SubnetId: !Ref PublicSubnet1
       RouteTableId: !Ref PublicRouteTable
 
+  PublicSubnetRouteTableAssociation2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      RouteTableId: !Ref PublicRouteTable
+      
 Outputs:
   VPC:
     Description: VPC
