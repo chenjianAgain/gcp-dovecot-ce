@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Nitori-Sap Demo
+
+Resources:
+  EC2NotFromLaunchConfig:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      KeyName: "Nitori"
+      Tags: 
+        - 
+          Key: "Name"
+          Value:  !Sub
+            - "${StackName}"
+            - StackName: !Ref AWS::StackName
+      ImageId: 
+      InstanceType: m5.2xlarge
+      UserData:
+        "Fn::Base64":
+          !Sub |
+          #!/bin/bash
+          yum install -y mailx 
+Outputs:
+  URL:
+    Description: Your EC2 DNS URL
+    Value: !Sub 
+      - '${DNSName}'
+      -  DNSName: !GetAtt EC2NotFromLaunchConfig.PublicDnsName
